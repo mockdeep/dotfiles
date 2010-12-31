@@ -1,0 +1,5 @@
+CLOUDNINE=~/naumu/cloudnine
+
+# android SDK
+#export PATH=${PATH}:/home/explorer/Android/sdk/tools
+

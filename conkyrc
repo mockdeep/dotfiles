@@ -1,0 +1,50 @@
+use_xft yes
+xftfont verdana:size=10
+alignment top_right
+xftalpha 0.8
+own_window yes
+own_window_type override
+own_window_transparent yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+double_buffer yes
+draw_shades no
+draw_outline no
+draw_borders no
+stippled_borders 10
+border_margin 4
+border_width 1
+default_shade_color grey
+default_outline_color black
+default_color 5A6C9D
+use_spacer none
+no_buffers yes
+uppercase no
+color1 5A6C9D
+color2 555555
+color3 663300
+maximum_width 250
+minimum_size 250
+
+
+TEXT
+${color 777777}${font PizzaDude Bullets:size=16}v${font}   ${color 666666}UpSpeed:       ${color 6B7DAE}${upspeed wlan0} Kb/s
+${color 777777}${font PizzaDude Bullets:size=16}r${font}   ${color 666666}DownSpeed:  ${color 6B7DAE}${downspeed wlan0} Kb/s
+
+${color 888888}${font StyleBats:size=16}A${font}  ${color 777777}CPU0: ${color 5A6C9D}${cpu cpu0}% ${cpubar cpu0}
+${color 888888}${font StyleBats:size=16}A${font}  ${color 777777}CPU1: ${color 495B8C}${cpu cpu1}% ${cpubar cpu1}
+
+${color 999999}${font styleBats:size=16}b${font}  ${color 888888}Ubuntu:    ${color 384A7B}${fs_used /}/${fs_size /}
+${fs_bar /}
+${color 999999}${font styleBats:size=16}b${font}  ${color 888888}Windows: ${color 27396A}${fs_used /media/windows}/${fs_size /media/windows}
+${fs_bar /media/windows}
+
+${color AAAAAA}${font styleBats:size=16}i${color 999999}${font}  Battery: ${color 162859}${battery_time}
+${battery_bar}
+
+${color BBBBBB}${font stylebats:size=14}2 ${font}${color A7A7A7}Music: ${execi 300 echo 'scale=3;('`du -s ~/Music | cut -f 1`+`du -s ~/GoodMusic | cut -f 1`')/1000000' | bc}Gb
+${color 051748}${execibar 300 echo '1000000000/('`du -s ~/Music | cut -f 1`+`du -s ~/GoodMusic | cut -f 1`')' | bc}
+
+${color BBBBBB}${font Radio Space:size=14}${time %A %d %Y}
+${color 040637}${font KacstTitleL:size=60} ${time %I:%M}${font :size=30}
+
+${font}${color BBBBBB}${execpi 300 conkyEmail --template=/home/explorer/scripts/conkyEmail.template | fold -w35 -s}

@@ -1,0 +1,30 @@
+text_buffer_size 2048
+use_xft yes
+xftfont verdana:size=10
+alignment bottom_right
+xftalpha 0.8
+own_window yes
+own_window_type override
+own_window_transparent yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+double_buffer yes
+draw_shades no
+draw_outline no
+draw_borders no
+stippled_borders 10
+border_margin 4
+border_width 1
+default_shade_color grey
+default_outline_color black
+default_color 2A2A1A
+use_spacer none
+no_buffers yes
+uppercase no
+color1 021F22
+color2 444444
+color3 000000
+
+
+
+TEXT
+${font}${execpi 1800 conkyGoogleCalendar -u USERNAME -p PASSWORD --daysahead=7 --limit=10 -r "Robert Fletcher" -f "%A, %B %d" -F ", %l:%M %P" --template=/home/explorer/scripts/conkyGoogleCalendar.template}

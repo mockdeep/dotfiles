@@ -1,0 +1,6 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =4
+let g:netrw_dirhist_1='/etc/apt/sources.list.d'
+let g:netrw_dirhist_2='/etc/rc0.d'
+let g:netrw_dirhist_3='/home/explorer/naumu/cloudnine/app/views/layouts'
+let g:netrw_dirhist_4='/home/explorer/.vim'
