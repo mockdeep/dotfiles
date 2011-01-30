@@ -2,13 +2,17 @@ alias spec="spec --color --format nested"
 alias ud="sudo apt-get update && sudo apt-get upgrade && sudo gem update --system && sudo gem update"
 alias ea="vim ~/Dropbox/dotfiles/bash/aliases && rl"
 alias rl="source ~/.bashrc"
-alias ss="script/server"
-alias sc="script/console"
+alias ss="rails server"
+alias sc="rails console"
 alias controllerdia="railroad -i -l -C | dot -Tsvg > controllers.svg"
 alias modeldia="railroad -i -l -a -m -M | dot -Tsvg > models.svg"
 alias grep='grep --color=auto'
 alias remigrate='rake db:migrate VERSION=0 && rake db:migrate'
 alias gits='git status'
+alias cdrd='cd ~/Dropbox/bin/rudo && export DEV=true'
+alias rad='rudo add'
+alias dun='rudo done'
+alias rdo='cd ~/Dropbox/bin/rudo-on-rails'
 
 function jl {
     cp -n ~/Dropbox/Templates/Document.odt ~/Dropbox/Documents/journal/`date +%Y-%m-%d`.odt
@@ -32,13 +36,7 @@ function grepit {
     grep -nr "$1" ./*
 }
 
-alias gad="git add . && git add -u"
-alias pogit="git push --tags origin master"
-alias kugit="git push --tags heroku master"
-alias pushall="git push --tags origin master && git push --tags heroku master"
-alias pulku="git pull heroku master"
-alias pulgit="git pull origin master"
-alias pusgit="git push origin master"
 alias ls='ls --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
+alias gitpoo='git push && git push mockdeep'

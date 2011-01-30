@@ -27,4 +27,4 @@ color3 000000
 
 
 TEXT
-${font}${execpi 1800 conkyGoogleCalendar -u USERNAME -p PASSWORD --daysahead=7 --limit=10 -r "Robert Fletcher" -f "%A, %B %d" -F ", %l:%M %P" --template=/home/explorer/scripts/conkyGoogleCalendar.template}
+${font}${execpi 1800 conkyGoogleCalendar -u `head -n 1 ~/credentials` -p `tail -n 1 ~/credentials` --daysahead=7 --limit=10 -r "Robert Fletcher" -f "%A, %B %d" -F ", %l:%M %P" --template=~/Dropbox/scripts/conkyGoogleCalendar.template}

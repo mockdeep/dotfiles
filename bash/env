@@ -1,5 +1,4 @@
-CLOUDNINE=~/naumu/cloudnine
-
 # android SDK
 #export PATH=${PATH}:/home/explorer/Android/sdk/tools
-
+export PATH=${PATH}:~/Dropbox/bin/rudo
+export COLOR=true

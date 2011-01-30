@@ -6,8 +6,13 @@ set autoindent    " always set autoindenting on
 set smarttab      " Smart tabbing!
 set shiftround    " < and > will hit indent levels instead of +-4 always
 set list listchars=tab:»·,trail:·
+set hlsearch
+set incsearch
+set number
 syntax on
 
 " tab settings for Makefiles
 autocmd BufEnter ?akefile* set noet ts=8 sts=8 sw=8
 set paste
+nmap \nt :NERDTree<CR>
+nmap \nc :NERDTreeClose<CR>
