@@ -24,6 +24,8 @@ color3 000000
 maximum_width 600
 
 TEXT
+${if_running rhythmbox}
    ${font arial black:size=30}${exec conkyRhythmbox --datatype=TI}${font}
    ${font arial black:size=2}${execbar conkyRhythmbox --datatype=PP}${font}
    ${font arial black:size=20}by ${exec conkyRhythmbox --datatype=AR}
+${endif}

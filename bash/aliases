@@ -1,7 +1,7 @@
 alias spec="spec --color --format nested"
 alias ud="sudo apt-get update && sudo apt-get upgrade && sudo gem update --system && sudo gem update"
 alias ea="vim ~/Dropbox/dotfiles/bash/aliases && rl"
-alias rl="source ~/.bashrc"
+alias rl="source ~/Dropbox/dotfiles/bashrc"
 alias ss="rails server"
 alias sc="rails console"
 alias controllerdia="railroad -i -l -C | dot -Tsvg > controllers.svg"
@@ -13,6 +13,9 @@ alias cdrd='cd ~/Dropbox/bin/rudo && export DEV=true'
 alias rad='rudo add'
 alias dun='rudo done'
 alias rdo='cd ~/Dropbox/bin/rudo-on-rails'
+alias tap='cd ~/Dropbox/tapjoy/tapjoyserver/tapjoyads'
+alias sco='script/console'
+alias sse='script/server'
 
 function jl {
     cp -n ~/Dropbox/Templates/Document.odt ~/Dropbox/Documents/journal/`date +%Y-%m-%d`.odt
@@ -36,7 +39,7 @@ function grepit {
     grep -nr "$1" ./*
 }
 
-alias ls='ls --color=auto'
+alias ls='ls -G'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias gitpoo='git push && git push mockdeep'

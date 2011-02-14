@@ -2,3 +2,4 @@
 #export PATH=${PATH}:/home/explorer/Android/sdk/tools
 export PATH=${PATH}:~/Dropbox/bin/rudo
 export COLOR=true
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"

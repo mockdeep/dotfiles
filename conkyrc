@@ -24,7 +24,7 @@ color2 555555
 color3 663300
 maximum_width 250
 minimum_size 250
-text_buffer_size 512
+text_buffer_size 400
 
 
 TEXT
