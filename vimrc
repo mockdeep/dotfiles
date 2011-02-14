@@ -9,6 +9,7 @@ set list listchars=tab:»·,trail:·
 set hlsearch
 set incsearch
 set number
+set mouse=a
 syntax on
 
 " tab settings for Makefiles

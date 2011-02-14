@@ -16,6 +16,7 @@ alias rdo='cd ~/Dropbox/bin/rudo-on-rails'
 alias tap='cd ~/Dropbox/tapjoy/tapjoyserver/tapjoyads'
 alias sco='script/console'
 alias sse='script/server'
+alias sdbc='script/dbconsole'
 
 function jl {
     cp -n ~/Dropbox/Templates/Document.odt ~/Dropbox/Documents/journal/`date +%Y-%m-%d`.odt
