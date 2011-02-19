@@ -40,7 +40,12 @@ function grepit {
     grep -nr "$1" ./*
 }
 
-alias ls='ls -G'
+if [[ `uname` == 'Darwin' ]]; then
+  alias ls='ls -G'
+else
+  alias ls='ls --color'
+fi
+
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias gitpoo='git push && git push mockdeep'
