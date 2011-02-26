@@ -11,9 +11,14 @@ set incsearch
 set number
 set mouse=a
 syntax on
+filetype plugin on
 
 " tab settings for Makefiles
 autocmd BufEnter ?akefile* set noet ts=8 sts=8 sw=8
 set paste
 nmap \nt :NERDTree<CR>
 nmap \nc :NERDTreeClose<CR>
+nmap \jl :JSLintToggle<CR>
+nmap \ju :JSLintUpdate<CR>
+nmap \jo :let g:JSLintHighlightErrorLine = 0<CR>:JSLintUpdate<CR>
+nmap \jn :let g:JSLintHighlightErrorLine = 1<CR>:JSLintUpdate<CR>
