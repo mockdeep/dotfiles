@@ -2,8 +2,8 @@ alias spec="spec --color --format nested"
 alias ud="sudo apt-get update && sudo apt-get upgrade && sudo gem update --system && sudo gem update"
 alias ea="vim ~/Dropbox/dotfiles/bash/aliases && rl"
 alias rl="source ~/Dropbox/dotfiles/bashrc"
-alias ss="rails server"
-alias sc="rails console"
+alias rs="rails server"
+alias rc="rails console"
 alias controllerdia="railroad -i -l -C | dot -Tsvg > controllers.svg"
 alias modeldia="railroad -i -l -a -m -M | dot -Tsvg > models.svg"
 alias grep='grep --color=auto'
@@ -14,8 +14,8 @@ alias rad='rudo add'
 alias dun='rudo done'
 alias rdo='cd ~/Dropbox/bin/rudo-on-rails'
 alias tap='cd ~/Dropbox/tapjoy/tapjoyserver/tapjoyads'
-alias sco='script/console'
-alias sse='script/server'
+alias sc='script/console'
+alias ss='script/server'
 alias sdbc='script/dbconsole'
 
 function jl {
