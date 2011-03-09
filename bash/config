@@ -69,7 +69,15 @@ function set_titlebar {
 function set_prompt {
     git="$(parse_git)"
 
-    PS1="${txtgrn}\W${end}"
+    fillsize=${COLUMNS}
+    fill=""
+    while [ "$fillsize" -gt "0" ]
+    do
+      fill="${fill}+"
+      let fillsize=${fillsize}-1
+    done
+
+    PS1="${txtred}${fill}${end}\n${txtgrn}\W${end}"
     if [[ -n "$git" ]]; then
         PS1="$PS1 $git ${bldwht}\$${end} "
     else
