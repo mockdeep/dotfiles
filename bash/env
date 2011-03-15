@@ -1,5 +1,3 @@
-# android SDK
-#export PATH=${PATH}:/home/explorer/Android/sdk/tools
-export PATH=${PATH}:~/Dropbox/bin/rudo
+export JAVA_HOME=/usr/
 export COLOR=true
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
