@@ -9,7 +9,12 @@ set list listchars=tab:»·,trail:·
 set hlsearch
 set incsearch
 set number
+set wrap
+set linebreak
+set nolist
 set mouse=a
+noremap  <buffer> <silent> k gk
+noremap  <buffer> <silent> j gj
 syntax on
 filetype plugin on
 

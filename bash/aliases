@@ -17,6 +17,7 @@ alias tap='cd ~/Dropbox/tapjoy/tapjoyserver/tapjoyads'
 alias sc='script/console'
 alias ss='script/server'
 alias sdbc='script/dbconsole'
+alias jnl='vim ~/Dropbox/Documents/journal/`date +%Y-%m-%d`.txt'
 
 function jl {
     cp -n ~/Dropbox/Templates/Document.odt ~/Dropbox/Documents/journal/`date +%Y-%m-%d`.odt
