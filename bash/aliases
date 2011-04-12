@@ -1,29 +1,40 @@
-alias spec="spec --color --format nested"
-alias ud="sudo apt-get update && sudo apt-get upgrade && sudo gem update --system && sudo gem update"
-alias ea="vim ~/Dropbox/dotfiles/bash/aliases && rl"
-alias rl="source ~/Dropbox/dotfiles/bashrc"
-alias rs="rails server"
-alias rc="rails console"
-alias controllerdia="railroad -i -l -C | dot -Tsvg > controllers.svg"
-alias modeldia="railroad -i -l -a -m -M | dot -Tsvg > models.svg"
-alias grep='grep --color=auto'
-alias remigrate='rake db:migrate VERSION=0 && rake db:migrate'
-alias gits='git status'
-alias cdrd='cd ~/Dropbox/bin/rudo && export DEV=true'
+# work with dotfiles
+alias ea='vim ${DOT_PATH}/bash/aliases && rl'
+alias rl="source ${DOT_PATH}/bashrc"
+
+# productivity stuff
 alias rad='rudo add'
 alias dun='rudo done'
-alias rdo='cd ~/Dropbox/bin/rubyclass/rudo'
-alias tap='cd ~/Dropbox/tapjoy/tapjoyserver/tapjoyads'
+alias jnl='vim ${DOC_PATH}/journal/`date +%Y-%m-%d`.txt'
+alias outlines='cd ${DOC_PATH}/outlines'
+alias lst='outlines && vi list.md && hamdown list.md > list.html && firefox list.html'
+
+# system stuff
+alias ud="sudo apt-get update && sudo apt-get upgrade"
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+# project paths
+alias kp='cd ${BIN_PATH}/kp'
+alias rdo='cd ${BIN_PATH}/rubyclass/rudo'
+
+# ruby/rails stuff
+alias spec="spec --color --format nested"
+alias gems='cd /usr/lib/ruby/gems/1.8/gems'
 alias sc='script/console'
 alias ss='script/server'
 alias sdbc='script/dbconsole'
-alias jnl='vim ~/Dropbox/Documents/journal/`date +%Y-%m-%d`.txt'
+alias rc="rails console"
+alias rs="rails server"
+alias remigrate='rake db:migrate VERSION=0 && rake db:migrate'
 
 function jl {
-    cp -n ~/Dropbox/Templates/Document.odt ~/Dropbox/Documents/journal/`date +%Y-%m-%d`.odt
-    openit ~/Dropbox/Documents/journal/`date +%Y-%m-%d`.odt
+    cp -n ~/Templates/Document.odt ${DOC_PATH}/journal/`date +%Y-%m-%d`.odt
+    openit ${DOC_PATH}/journal/`date +%Y-%m-%d`.odt
 }
 
+# open a file, choosing utility based on Mac/Linux
 function openit {
     unamestr=`uname`
     if [[ $unamestr == 'Darwin' ]]; then
@@ -34,9 +45,10 @@ function openit {
 }
 
 function list {
-    openit ~/Dropbox/Documents/lists/list.odt
+    openit ${DOC_PATH}/lists/list.odt
 }
 
+# search all files in this folder recursively for some text
 function grepit {
     grep -nr "$1" ./*
 }
@@ -46,7 +58,3 @@ if [[ `uname` == 'Darwin' ]]; then
 else
   alias ls='ls --color'
 fi
-
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
-alias gitpoo='git push && git push mockdeep'
