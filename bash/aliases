@@ -18,6 +18,7 @@ alias egrep='egrep --color=auto'
 # project paths
 alias kp='cd ${BIN_PATH}/kp'
 alias rdo='cd ${BIN_PATH}/rubyclass/rudo'
+alias hdown='cd ${BIN_PATH}/hamdown'
 
 # ruby/rails stuff
 alias spec="spec --color --format nested"
