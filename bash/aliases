@@ -3,11 +3,9 @@ alias ea='vim ${DOT_PATH}/bash/aliases && rl'
 alias rl="source ${DOT_PATH}/bashrc"
 
 # productivity stuff
-alias rad='rudo add'
-alias dun='rudo done'
 alias jnl='vim ${DOC_PATH}/journal/`date +%Y-%m-%d`.txt'
 alias outlines='cd ${DOC_PATH}/outlines'
-alias lst='outlines && vi list.md && hamdown list.md > list.html && firefox list.html'
+alias lst='outlines && vi list.md && hamdown -f list.md -c > list.html && firefox list.html'
 
 # system stuff
 alias ud="sudo apt-get update && sudo apt-get upgrade"
@@ -17,8 +15,8 @@ alias egrep='egrep --color=auto'
 
 # project paths
 alias kp='cd ${BIN_PATH}/kp'
-alias rdo='cd ${BIN_PATH}/rubyclass/rudo'
 alias hdown='cd ${BIN_PATH}/hamdown'
+alias bin='cd ${BIN_PATH}'
 
 # ruby/rails stuff
 alias spec="spec --color --format nested"
@@ -29,6 +27,9 @@ alias sdbc='script/dbconsole'
 alias rc="rails console"
 alias rs="rails server"
 alias remigrate='rake db:migrate VERSION=0 && rake db:migrate'
+alias gb='gem build *.gemspec && gem push *.gem && rm *.gem'
+# echo is to trim leading spaces
+alias killr='ps | grep ruby | xargs echo | cut -f 1 -d " " | xargs kill -9'
 
 function jl {
     cp -n ~/Templates/Document.odt ${DOC_PATH}/journal/`date +%Y-%m-%d`.odt
