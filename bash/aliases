@@ -55,6 +55,12 @@ function grepit {
     grep -nr "$1" ./*
 }
 
+# search rails app in lib and app folders for text
+function grepap {
+    grep -nr "$1" lib/*
+    grep -nr "$1" app/*
+}
+
 if [[ `uname` == 'Darwin' ]]; then
   alias ls='ls -G'
 else
