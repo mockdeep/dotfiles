@@ -1,3 +1,9 @@
 ssh/*
 .DS_Store
 *private
+gtk-bookmarks
+irb-save-history
+irbrc
+jslintrc
+vim/*
+*.swp
