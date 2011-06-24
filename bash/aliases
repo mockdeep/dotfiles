@@ -5,7 +5,7 @@ alias rl="source ${DOT_PATH}/bashrc"
 # productivity stuff
 alias jnl='vim ${DOC_PATH}/journal/`date +%Y-%m-%d`.txt'
 alias outlines='cd ${DOC_PATH}/outlines'
-alias lst='outlines && vi list.md && hamdown -f list.md -p 55 -tc > list.html && firefox list.html'
+alias lst='outlines && vi list.md && hamdown -f list.md -p 58 -tc > list.html && firefox list.html'
 
 # system stuff
 alias ud="sudo apt-get update && sudo apt-get upgrade"
