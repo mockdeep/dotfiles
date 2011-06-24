@@ -45,5 +45,3 @@ ${color BBBBBB}${font Arial:size=14}${time %A, %B %d, %Y}
 ${color 040637}${font Arial:size=60}${time %I:%M}${font :size=30}
 
 ${color}${font Monospace:size=10}${execi 10 rudo -c false}
-
-${font Monospace:size=10}${execi 10 bars -w 26}
