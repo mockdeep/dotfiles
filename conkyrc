@@ -28,8 +28,8 @@ text_buffer_size 800
 
 
 TEXT
-${color 666666}UpSpeed:                      ${color 6B7DAE}${upspeed eth1} Kb/s
-${color 666666}DownSpeed:                 ${color 6B7DAE}${downspeed eth1} Kb/s
+${color 666666}UpSpeed:                  ${color 6B7DAE}${upspeed eth1} Kb/s
+${color 666666}DownSpeed:              ${color 6B7DAE}${downspeed eth1} Kb/s
 
 ${color 777777}CPU: ${color 5A6C9D}${cpu cpu0}% ${cpubar cpu0}
 
