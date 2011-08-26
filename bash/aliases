@@ -18,6 +18,7 @@ alias kp='cd ${BIN_PATH}/kp'
 alias hdown='cd ${BIN_PATH}/hamdown'
 alias bin='cd ${BIN_PATH}'
 alias web='cd ${BIN_PATH}/class/website'
+alias class='cd ${BIN_PATH}/class'
 
 # ruby/rails stuff
 alias spec="spec --color --format nested"
