@@ -4,6 +4,17 @@ alias rl="source ${DOT_PATH}/bashrc"
 
 # productivity stuff
 alias jnl='vim ${DOC_PATH}/journal/`date +%Y-%m-%d`.txt'
+
+function jrnl {
+  today=`date +%Y-%m-%d`
+  filepath="${DOC_PATH}/journal"
+  i=0
+  while [ -e "${filepath}/${today}.${i}.txt" ]; do
+    let i=i+1
+  done
+  vim "${filepath}/${today}.${i}.txt"
+}
+
 alias outlines='cd ${DOC_PATH}/outlines'
 alias lst='outlines && vi list.md && hamdown -f list.md -p 55 -tc > list.html && firefox list.html'
 
