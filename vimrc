@@ -11,7 +11,6 @@ set number
 set wrap
 set linebreak
 set nolist
-set mouse=a
 set iskeyword-=_
 noremap  <buffer> <silent> k gk
 noremap  <buffer> <silent> j gj
