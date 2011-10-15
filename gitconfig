@@ -1,5 +1,6 @@
 [core]
 	editor = vim
+	excludesfile = /home/fletch/.gitignore_global
 [user]
 	name = Robert Fletcher
 	email = lobatifricha@gmail.com

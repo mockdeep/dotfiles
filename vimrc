@@ -12,14 +12,23 @@ set wrap
 set linebreak
 set nolist
 set iskeyword-=_
+set textwidth=80
+set ruler
 noremap  <buffer> <silent> k gk
 noremap  <buffer> <silent> j gj
 syntax on
 filetype plugin on
+" show tabs that aren't spaces
+set listchars+=tab:»·
+" show trailing spaces
 set list listchars=tab:»·,trail:·
 
 " tab settings for Makefiles
 autocmd BufEnter ?akefile* set noet ts=8 sts=8 sw=8
+autocmd VimEnter * NERDTree
+" remove all trailing spaces in file before saving
+" probably better to leave this out for now
+" autocmd BufWritePre * :%s/\s\+$//e
 set paste
 nmap \nt :NERDTree<CR>
 nmap \nc :NERDTreeClose<CR>

@@ -89,4 +89,4 @@ function set_prompt {
 }
 
 export PROMPT_COMMAND=set_prompt
-
+export HISTCONTROL=ignoredups
