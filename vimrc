@@ -12,7 +12,6 @@ set wrap
 set linebreak
 set nolist
 set iskeyword-=_
-set textwidth=80
 set ruler
 noremap  <buffer> <silent> k gk
 noremap  <buffer> <silent> j gj
