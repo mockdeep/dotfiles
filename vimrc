@@ -12,7 +12,6 @@ set wrap
 set linebreak
 set nolist
 set iskeyword-=_
-set ruler
 noremap  <buffer> <silent> k gk
 noremap  <buffer> <silent> j gj
 syntax on
@@ -35,3 +34,4 @@ nmap \jl :JSLintToggle<CR>
 nmap \ju :JSLintUpdate<CR>
 nmap \jo :let g:JSLintHighlightErrorLine = 0<CR>:JSLintUpdate<CR>
 nmap \jn :let g:JSLintHighlightErrorLine = 1<CR>:JSLintUpdate<CR>
+set ruler

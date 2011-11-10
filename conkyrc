@@ -11,7 +11,6 @@ draw_shades no
 draw_outline no
 draw_borders no
 stippled_borders 10
-border_margin 4
 border_width 1
 default_shade_color grey
 default_outline_color black
@@ -35,8 +34,6 @@ ${color 777777}CPU: ${color 5A6C9D}${cpu cpu0}% ${cpubar cpu0}
 
 ${font}${color 888888}Ubuntu:    ${color 384A7B}${fs_used /}/${fs_size /}
 ${fs_bar /}
-${font}${color 888888}Windows: ${color 27396A}${fs_used /media/windows}/${fs_size /media/windows}
-${fs_bar /media/windows}
 
 ${color 999999}${font}  Battery: ${color 162859}${battery_time}
 ${battery_bar}
