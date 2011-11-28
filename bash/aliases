@@ -34,7 +34,6 @@ alias todo='cd ${PROJECT_PATH}/todo'
 
 # ruby/rails stuff
 alias spec="spec --color --format nested"
-alias gems='cd ~/.rvm/gems/ruby-1.8.7-p352@work/gems/'
 alias sc='script/console'
 alias ss='script/server'
 alias sdbc='script/dbconsole'
