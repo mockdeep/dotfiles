@@ -22,7 +22,7 @@ set listchars+=tab:»·
 set list listchars=tab:»·,trail:·
 
 " tab settings for Makefiles
-autocmd BufEnter ?akefile* set noet ts=8 sts=8 sw=8
+" autocmd BufEnter ?akefile* set noet ts=8 sts=8 sw=8
 autocmd VimEnter * NERDTree
 " remove all trailing spaces in file before saving
 " probably better to leave this out for now
