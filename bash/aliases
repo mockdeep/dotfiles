@@ -16,7 +16,7 @@ function jrnl {
 }
 
 alias outlines='cd ${DOC_PATH}/outlines'
-alias lst='outlines && vi list.md && hamdown -f list.md -p 55 -tc > list.html && firefox list.html'
+alias lst='outlines && vi list.md && hamdown -f list.md -p 0 -t > list.html && firefox list.html'
 
 # system stuff
 alias ud="sudo apt-get update && sudo apt-get upgrade"
