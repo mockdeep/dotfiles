@@ -31,6 +31,7 @@ alias bin='cd ${BIN_PATH}'
 alias web='cd ${BIN_PATH}/class/website'
 alias class='cd ${BIN_PATH}/class'
 alias todo='cd ${PROJECT_PATH}/todo'
+alias steam='cd ${PROJECT_PATH}/steamer'
 
 # ruby/rails stuff
 alias spec="spec --color --format nested"
