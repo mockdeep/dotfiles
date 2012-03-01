@@ -2,6 +2,8 @@
 alias ea='vim ${DOT_PATH}/bash/aliases && rl'
 alias rl="source ${DOT_PATH}/bashrc"
 
+alias la='ls -a'
+
 # productivity stuff
 alias jnl='vim ${DOC_PATH}/journal/`date +%Y-%m-%d`.txt'
 
@@ -25,11 +27,7 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 # project paths
-alias kp='cd ${BIN_PATH}/kp'
-alias hdown='cd ${BIN_PATH}/hamdown'
-alias bin='cd ${BIN_PATH}'
-alias web='cd ${BIN_PATH}/class/website'
-alias class='cd ${BIN_PATH}/class'
+alias hdown='cd ${PROJECT_PATH}/hamdown'
 alias todo='cd ${PROJECT_PATH}/todo'
 alias steam='cd ${PROJECT_PATH}/steamer'
 
