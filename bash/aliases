@@ -28,7 +28,7 @@ alias egrep='egrep --color=auto'
 
 # project paths
 alias hdown='cd ${PROJECT_PATH}/hamdown'
-alias todo='cd ${PROJECT_PATH}/todo'
+alias todo='cd ${PROJECT_PATH}/elements'
 alias steam='cd ${PROJECT_PATH}/steamer'
 
 # ruby/rails stuff
