@@ -36,8 +36,8 @@ alias spec="spec --color --format nested"
 alias sc='script/console'
 alias ss='script/server'
 alias sdbc='script/dbconsole'
-alias rc="rails console"
-alias rs="rails server mongrel"
+alias rc="bundle exec rails console"
+alias rs="bundle exec rails server mongrel"
 alias remigrate='rake db:migrate VERSION=0 && rake db:migrate'
 alias gb='gem build *.gemspec && gem push *.gem && rm *.gem'
 alias gems='cd $GEM_HOME/gems'
