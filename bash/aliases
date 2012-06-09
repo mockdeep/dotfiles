@@ -42,6 +42,7 @@ alias remigrate='rake db:migrate VERSION=0 && rake db:migrate'
 alias gb='gem build *.gemspec && gem push *.gem && rm *.gem'
 alias gems='cd $GEM_HOME/gems'
 alias soc='cd ${PROJECT_PATH}/socrates'
+alias sql='cd ${PROJECT_PATH}/sql_sampler'
 # echo is to trim leading spaces
 alias killr='ps | grep ruby | xargs echo | cut -f 1 -d " " | xargs kill -9'
 alias killrb='ps | grep irb | xargs echo | cut -f 1 -d " " | xargs kill -9'
