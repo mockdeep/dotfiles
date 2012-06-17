@@ -17,3 +17,5 @@
 	ui = true
 [branch]
 	autosetuprebase = always
+[git-pair]
+	authors = Robert Fletcher <lobatifricha@gmail.com>
