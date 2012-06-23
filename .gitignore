@@ -1,9 +1,10 @@
-ssh/*
+.ssh/*
 .DS_Store
 *private
 gtk-bookmarks
 irb-save-history
 irbrc
 jslintrc
-vim/*
+.vim/*
 *.swp
+banshee-1/*
