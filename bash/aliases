@@ -29,7 +29,7 @@ alias egrep='egrep --color=auto'
 # project paths
 alias hdown='cd ${PROJECT_PATH}/hamdown'
 alias todo='cd ${PROJECT_PATH}/elements'
-alias steam='cd ${PROJECT_PATH}/steamer'
+alias bm='cd ${PROJECT_PATH}/bettermeans'
 
 # ruby/rails stuff
 alias spec="spec --color --format nested"
