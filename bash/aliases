@@ -44,6 +44,7 @@ alias gems='cd $GEM_HOME/gems'
 alias soc='cd ${PROJECT_PATH}/socrates'
 alias sql='cd ${PROJECT_PATH}/sql_sampler'
 alias be='bundle exec'
+alias rbp='rails_best_practices .'
 
 # echo is to trim leading spaces
 alias killr='ps | grep ruby | xargs echo | cut -f 1 -d " " | xargs kill -9'
