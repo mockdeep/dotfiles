@@ -37,7 +37,7 @@ alias sc='script/console'
 alias ss='script/server'
 alias sdbc='script/dbconsole'
 alias rc="bundle exec rails console"
-alias rs="bundle exec rails server mongrel"
+alias rs="bundle exec rails server"
 alias remigrate='rake db:migrate VERSION=0 && rake db:migrate'
 alias gb='gem build *.gemspec && gem push *.gem && rm *.gem'
 alias gems='cd $GEM_HOME/gems'
