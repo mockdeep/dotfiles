@@ -8,3 +8,4 @@ jslintrc
 .vim/*
 *.swp
 banshee-1/*
+*.xml
