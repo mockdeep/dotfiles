@@ -30,6 +30,7 @@ alias egrep='egrep --color=auto'
 alias hdown='cd ${PROJECT_PATH}/hamdown'
 alias todo='cd ${PROJECT_PATH}/elements'
 alias bm='cd ${PROJECT_PATH}/bettermeans'
+alias ch='cd ${PROJECT_PATH}/chai'
 
 # ruby/rails stuff
 alias spec="spec --color --format nested"
@@ -45,6 +46,7 @@ alias soc='cd ${PROJECT_PATH}/socrates'
 alias sql='cd ${PROJECT_PATH}/sql_sampler'
 alias be='bundle exec'
 alias rbp='rails_best_practices .'
+alias nogems="gem list | cut -f 1 -d ' ' | xargs gem uninstall -a"
 
 # echo is to trim leading spaces
 alias killr='ps | grep ruby | xargs echo | cut -f 1 -d " " | xargs kill -9'
