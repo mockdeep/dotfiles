@@ -21,7 +21,7 @@ alias outlines='cd ${DOC_PATH}/outlines'
 alias lst='outlines && vi list.md && hamdown -f list.md -p 55 -c -t > list.html && firefox list.html'
 
 # system stuff
-alias ud="sudo apt-get update && sudo apt-get upgrade"
+alias ud="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade"
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
@@ -31,6 +31,7 @@ alias hdown='cd ${PROJECT_PATH}/hamdown'
 alias todo='cd ${PROJECT_PATH}/elements'
 alias bm='cd ${PROJECT_PATH}/bettermeans'
 alias ch='cd ${PROJECT_PATH}/chai'
+alias ti='cd ${PROJECT_PATH}/tithe'
 
 # ruby/rails stuff
 alias spec="spec --color --format nested"
