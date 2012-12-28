@@ -12,6 +12,7 @@ set wrap
 set linebreak
 set nolist
 set iskeyword-=_
+set showcmd
 noremap  <buffer> <silent> k gk
 noremap  <buffer> <silent> j gj
 syntax on
