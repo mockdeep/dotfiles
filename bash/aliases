@@ -32,6 +32,7 @@ alias todo='cd ${PROJECT_PATH}/elements'
 alias bm='cd ${PROJECT_PATH}/bettermeans'
 alias ch='cd ${PROJECT_PATH}/chai'
 alias ti='cd ${PROJECT_PATH}/tithe'
+alias mu='cd ${PROJECT_PATH}/mutant'
 
 # ruby/rails stuff
 alias spec="spec --color --format nested"
