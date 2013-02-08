@@ -1,5 +1,5 @@
 call pathogen#infect()
-set tabstop=4     " Tab characters = 4 spaces when displayed
+set tabstop=2     " Tab characters = 4 spaces when displayed
 set shiftwidth=2  " Use 2 spaces for each insertion of (auto)indent
 set softtabstop=2 " Tabs 'count for' 2 spaces when editing (fake tabs)
 set expandtab     " <tab> -> spaces in insert mode
