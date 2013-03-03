@@ -32,6 +32,6 @@ nmap \jl :JSLintToggle<CR>
 nmap \ju :JSLintUpdate<CR>
 nmap \jo :let g:JSLintHighlightErrorLine = 0<CR>:JSLintUpdate<CR>
 nmap \jn :let g:JSLintHighlightErrorLine = 1<CR>:JSLintUpdate<CR>
-nmap \rt :retab<CR>:%s/\s\+$//g<CR>:wq<CR>
+nmap \rt :retab<CR>:%s/\s\+$//ge
 set ruler
 set autoindent    " always set autoindenting on
