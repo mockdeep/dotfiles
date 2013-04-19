@@ -1,3 +1,5 @@
+export HISTCONTROL=ignoredups
+export HISTFILESIZE=10000
 export JAVA_HOME=/usr/
 export COLOR=true
 export EDITOR=vim

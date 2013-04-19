@@ -102,7 +102,7 @@ fi
 alias touchy='sudo modprobe -r psmouse && sudo modprobe psmouse'
 
 # remove trailing spaces
-alias notrail="find . -regextype posix-egrep -regex '.*\.(erb|rake|rb|js|haml)$' -type f -exec sed 's/[ \t]*$//' -i {} \;"
+alias notrail="find . -regextype posix-egrep -regex '.*\.(erb|rake|rb|js|haml|html|css)$' -type f -exec sed 's/[ \t]*$//' -i {} \;"
 
 # replace tabs with spaces
-alias notab="find . -regextype posix-egrep -regex '.*\.(erb|rake|rb|js|haml)$' -type f -exec sed 's/\t/  /g' -i {} \;"
+alias notab="find . -regextype posix-egrep -regex '.*\.(erb|rake|rb|js|haml|html|css)$' -type f -exec sed 's/\t/  /g' -i {} \;"
