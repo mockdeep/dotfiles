@@ -3,6 +3,7 @@ alias ea='vim ${DOT_PATH}/bash/aliases && rl'
 alias rl="source ${DOT_PATH}/bashrc"
 
 alias la='ls -a'
+alias emacs='emacs -nw'
 
 # productivity stuff
 alias jnl='vim ${DOC_PATH}/journal/`date +%Y-%m-%d`.txt'
@@ -33,6 +34,7 @@ alias bm='cd ${PROJECT_PATH}/better'
 alias ch='cd ${PROJECT_PATH}/chai'
 alias ti='cd ${PROJECT_PATH}/tithe'
 alias mu='cd ${PROJECT_PATH}/mutant'
+alias mut='cd ${PROJECT_PATH}/mutant_rails'
 
 # ruby/rails stuff
 alias spec="spec --color --format nested"
@@ -49,6 +51,7 @@ alias sql='cd ${PROJECT_PATH}/sql_sampler'
 alias be='bundle exec'
 alias rbp='rails_best_practices .'
 alias nogems="gem list | cut -f 1 -d ' ' | xargs gem uninstall -a"
+alias mutate="be mutant -I lib -d -r ./config/environment.rb -r ./app/models/user.rb --rspec-dm2 ::User"
 
 # echo is to trim leading spaces
 alias killr='ps | grep ruby | xargs echo | cut -f 1 -d " " | xargs kill -9'
@@ -102,7 +105,7 @@ fi
 alias touchy='sudo modprobe -r psmouse && sudo modprobe psmouse'
 
 # remove trailing spaces
-alias notrail="find . -regextype posix-egrep -regex '.*\.(erb|rake|rb|js|haml|html|css)$' -type f -exec sed 's/[ \t]*$//' -i {} \;"
+alias notrail="find . -regextype posix-egrep -regex '.*\.(erb|rake|rb|js|haml|html|css|scss)$' -type f -exec sed 's/[ \t]*$//' -i {} \;"
 
 # replace tabs with spaces
-alias notab="find . -regextype posix-egrep -regex '.*\.(erb|rake|rb|js|haml|html|css)$' -type f -exec sed 's/\t/  /g' -i {} \;"
+alias notab="find . -regextype posix-egrep -regex '.*\.(erb|rake|rb|js|haml|html|css|scss)$' -type f -exec sed 's/\t/  /g' -i {} \;"
