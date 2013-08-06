@@ -13,6 +13,8 @@ set linebreak
 set nolist
 set iskeyword-=_
 set showcmd
+set colorcolumn=80
+highlight ColorColumn ctermbg=0
 noremap  <buffer> <silent> k gk
 noremap  <buffer> <silent> j gj
 syntax on
