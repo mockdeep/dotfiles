@@ -1,4 +1,6 @@
 *.swp
 *.swo
 .mailmap
+.bundle
+binstubs
 db/test.sqlite3-journal
