@@ -7,13 +7,14 @@ set smarttab      " Smart tabbing!
 set shiftround    " < and > will hit indent levels instead of +-4 always
 set hlsearch
 set incsearch
-set number
+set relativenumber
 set wrap
 set linebreak
 set nolist
 set iskeyword-=_
 set showcmd
 set colorcolumn=80
+
 highlight ColorColumn ctermbg=0
 noremap  <buffer> <silent> k gk
 noremap  <buffer> <silent> j gj
