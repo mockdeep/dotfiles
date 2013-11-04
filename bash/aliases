@@ -41,14 +41,13 @@ alias spec="spec --color --format nested"
 alias sc='script/console'
 alias ss='script/server'
 alias sdbc='script/dbconsole'
-alias rc="bundle exec rails console"
-alias rs="bundle exec rails server"
+alias rc="rails console"
+alias rs="rails server"
 alias remigrate='rake db:migrate VERSION=0 && rake db:migrate'
 alias gb='gem build *.gemspec && gem push *.gem && rm *.gem'
 alias gems='cd $GEM_HOME/gems'
 alias soc='cd ${PROJECT_PATH}/socrates'
 alias sql='cd ${PROJECT_PATH}/sql_sampler'
-alias be='bundle exec'
 alias rbp='rails_best_practices .'
 alias nogems="gem list | cut -f 1 -d ' ' | xargs gem uninstall -a"
 alias mutate="be mutant -I lib -d -r ./config/environment.rb -r ./app/models/user.rb --rspec-dm2 ::User"
