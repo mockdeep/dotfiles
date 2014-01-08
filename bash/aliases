@@ -59,7 +59,9 @@ alias testit='ruby -Ilib:test'
 alias countrb='for file in $(find . | grep \.rb$); do wc -l "$file"; done | sort -h'
 
 alias bomb='ruby ${SCRIPT_PATH}/branch_bomb.rb'
-alias gpom='git pull origin master'
+alias gp='git pull'
+alias gcm='git checkout master'
+alias gcs='git checkout staging'
 alias fetchapull="git config --add remote.origin.fetch '+refs/pull/*/head:refs/remotes/origin/pr/*'"
 function blamer {
     git ls-tree -r HEAD | sed -re 's/^.{53}//' | while read filename; do file "$filename"; done | grep -E ': .*text'|sed -r -e 's/: .*//' | while read filename; do git blame "$filename"; done | cut -f 2 -d '(' | cut -f 1 -d ' ' | sort | uniq -i -c | sort -h -r
