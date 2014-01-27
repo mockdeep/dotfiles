@@ -14,6 +14,7 @@ set nolist
 set iskeyword-=_
 set showcmd
 set colorcolumn=80
+set formatprg=par
 
 highlight ColorColumn ctermbg=0
 noremap  <buffer> <silent> k gk
@@ -38,6 +39,7 @@ nmap \ju :JSLintUpdate<CR>
 nmap \jo :let g:JSLintHighlightErrorLine = 0<CR>:JSLintUpdate<CR>
 nmap \jn :let g:JSLintHighlightErrorLine = 1<CR>:JSLintUpdate<CR>
 nmap \rt :retab<CR>:%s/\s\+$//ge<CR>
+let g:ctrlp_max_files=0
 set ruler
 set autoindent    " always set autoindenting on
 
