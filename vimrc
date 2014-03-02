@@ -22,6 +22,7 @@ noremap  <buffer> <silent> j gj
 syntax on
 filetype plugin indent on
 set list listchars=tab:»·,trail:·
+au BufNewFile,BufRead Guardfile set filetype=ruby
 
 " tab settings for Makefiles
 " autocmd BufEnter ?akefile* set noet ts=8 sts=8 sw=8
