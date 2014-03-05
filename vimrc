@@ -11,7 +11,6 @@ set relativenumber
 set wrap
 set linebreak
 set nolist
-set iskeyword-=_
 set showcmd
 set colorcolumn=80
 set formatprg=par
