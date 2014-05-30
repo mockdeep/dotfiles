@@ -23,3 +23,5 @@
 	authors = Tom Uebel <tauebel@gmail.com>
 [push]
 	default = current
+[pull]
+	rebase = true
