@@ -14,6 +14,7 @@ set nolist
 set showcmd
 set colorcolumn=80
 set formatprg=par
+set wildignore+=*/public/assets/*,*/tmp/*,*.so,*.swp,*.zip
 
 highlight ColorColumn ctermbg=0
 noremap  <buffer> <silent> k gk
