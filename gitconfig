@@ -5,6 +5,7 @@
 	name = Robert Fletcher
 	email = lobatifricha@gmail.com
 [alias]
+	contrast = log --left-right --graph --cherry-pick --oneline
 	co = checkout
 	ci = commit
 	st = status -s

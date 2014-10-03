@@ -15,6 +15,9 @@ set showcmd
 set colorcolumn=80
 set formatprg=par
 set wildignore+=*/public/assets/*,*/tmp/*,*.so,*.swp,*.zip
+set foldmethod=syntax
+set nofoldenable
+set fdo-=search
 
 highlight ColorColumn ctermbg=0
 noremap  <buffer> <silent> k gk

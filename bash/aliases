@@ -36,6 +36,7 @@ alias ch='cd ${PROJECT_PATH}/chai'
 alias ti='cd ${PROJECT_PATH}/tithe'
 alias mu='cd ${PROJECT_PATH}/mutant'
 alias mut='cd ${PROJECT_PATH}/mutant_rails'
+alias boo='cd ${PROJECT_PATH}/boon-blog'
 
 # ruby/rails stuff
 alias spec="spec --color --format nested"
