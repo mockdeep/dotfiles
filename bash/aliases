@@ -29,14 +29,14 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 # project paths
-alias hdown='cd ${PROJECT_PATH}/hamdown'
-alias todo='cd ${PROJECT_PATH}/elements'
-alias bm='cd ${PROJECT_PATH}/better'
-alias ch='cd ${PROJECT_PATH}/chai'
-alias ti='cd ${PROJECT_PATH}/tithe'
-alias mu='cd ${PROJECT_PATH}/mutant'
-alias mut='cd ${PROJECT_PATH}/mutant_rails'
-alias boo='cd ${PROJECT_PATH}/boon-blog'
+alias hdown='cd ${PROJECT_PATH}/gems/hamdown'
+alias todo='cd ${PROJECT_PATH}/web_apps/elements'
+alias bm='cd ${PROJECT_PATH}/web_apps/better'
+alias ch='cd ${PROJECT_PATH}/web_apps/chai'
+alias ti='cd ${PROJECT_PATH}/web_apps/tithe'
+alias mu='cd ${PROJECT_PATH}/open_source/mutant'
+alias boo='cd ${PROJECT_PATH}/web_apps/boon-blog'
+alias bt='cd ${PROJECT_PATH}/web_apps/boon_top'
 
 # ruby/rails stuff
 alias spec="spec --color --format nested"
@@ -64,6 +64,7 @@ alias countrb='for file in $(find . | grep \.rb$); do wc -l "$file"; done | sort
 
 alias bomb='ruby ${SCRIPT_PATH}/branch_bomb.rb'
 alias gp='git pull'
+alias gpu='git pull upstream master'
 alias gcm='git checkout master'
 alias gcs='git checkout staging'
 alias fetchapull="git config --add remote.origin.fetch '+refs/pull/*/head:refs/remotes/origin/pr/*'"
