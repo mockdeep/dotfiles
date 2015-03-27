@@ -29,14 +29,16 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 # project paths
-alias hdown='cd ${PROJECT_PATH}/gems/hamdown'
-alias todo='cd ${PROJECT_PATH}/web_apps/elements'
 alias bm='cd ${PROJECT_PATH}/web_apps/better'
-alias ch='cd ${PROJECT_PATH}/web_apps/chai'
-alias ti='cd ${PROJECT_PATH}/web_apps/tithe'
-alias mu='cd ${PROJECT_PATH}/open_source/mutant'
 alias boo='cd ${PROJECT_PATH}/web_apps/boon-blog'
 alias bt='cd ${PROJECT_PATH}/web_apps/boon_top'
+alias ch='cd ${PROJECT_PATH}/web_apps/chai'
+alias hdown='cd ${PROJECT_PATH}/gems/hamdown'
+alias mu='cd ${PROJECT_PATH}/open_source/mutant'
+alias rma='cd ${PROJECT_PATH}/open_source/rake-compiler-dev-box/rmagick'
+alias news='cd ${PROJECT_PATH}/web_apps/newsie'
+alias ti='cd ${PROJECT_PATH}/web_apps/tithe'
+alias todo='cd ${PROJECT_PATH}/web_apps/elements'
 
 # ruby/rails stuff
 alias spec="spec --color --format nested"

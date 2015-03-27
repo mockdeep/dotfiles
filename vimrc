@@ -8,6 +8,7 @@ set shiftround    " < and > will hit indent levels instead of +-4 always
 set hlsearch
 set incsearch
 set relativenumber
+set number
 set wrap
 set linebreak
 set nolist

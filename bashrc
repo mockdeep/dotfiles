@@ -13,3 +13,6 @@ export PATH="~/bin:$PATH"
 export PATH="/usr/local/heroku/bin:$PATH"
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+# added by travis gem
+[ -f /home/fletch/.travis/travis.sh ] && source /home/fletch/.travis/travis.sh
