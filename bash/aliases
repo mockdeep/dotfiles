@@ -69,7 +69,6 @@ alias gp='git pull'
 alias gpu='git pull upstream master'
 alias gcm='git checkout master'
 alias gcs='git checkout staging'
-alias fetchapull="git config --add remote.origin.fetch '+refs/pull/*/head:refs/remotes/origin/pr/*'"
 function blamer {
     git ls-tree -r HEAD | sed -re 's/^.{53}//' | while read filename; do file "$filename"; done | grep -E ': .*text'|sed -r -e 's/: .*//' | while read filename; do git blame "$filename"; done | cut -f 2 -d '(' | cut -f 1 -d ' ' | sort | uniq -i -c | sort -h -r
 }

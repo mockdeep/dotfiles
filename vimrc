@@ -15,7 +15,7 @@ set nolist
 set showcmd
 set colorcolumn=80
 set formatprg=par
-set wildignore+=*/public/assets/*,*/tmp/*,*.so,*.swp,*.zip
+set wildignore+=*/public/assets/*,*/tmp/*,*.so,*.swp,*.zip,*/coverage/*,*/node_modules/*
 set foldmethod=syntax
 set nofoldenable
 set fdo-=search
@@ -45,6 +45,7 @@ nmap \jo :let g:JSLintHighlightErrorLine = 0<CR>:JSLintUpdate<CR>
 nmap \jn :let g:JSLintHighlightErrorLine = 1<CR>:JSLintUpdate<CR>
 nmap \rt :retab<CR>:%s/\s\+$//ge<CR>
 let g:ctrlp_max_files=0
+let g:ctrlp_show_hidden=1
 set ruler
 set autoindent    " always set autoindenting on
 
