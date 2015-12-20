@@ -1,10 +1,10 @@
 execute pathogen#infect()
-set tabstop=2     " Tab characters = 4 spaces when displayed
-set shiftwidth=2  " Use 2 spaces for each insertion of (auto)indent
-set softtabstop=2 " Tabs 'count for' 2 spaces when editing (fake tabs)
-set expandtab     " <tab> -> spaces in insert mode
-set smarttab      " Smart tabbing!
-set shiftround    " < and > will hit indent levels instead of +-4 always
+set tabstop=2           " Tab characters = 4 spaces when displayed
+set shiftwidth=2        " Use 2 spaces for each insertion of (auto)indent
+set softtabstop=2       " Tabs 'count for' 2 spaces when editing (fake tabs)
+set expandtab           " <tab> -> spaces in insert mode
+set smarttab            " Smart tabbing!
+set shiftround          " < and > will hit indent levels instead of +-4 always
 set hlsearch
 set incsearch
 set relativenumber
@@ -12,9 +12,10 @@ set number
 set wrap
 set linebreak
 set nolist
-set showcmd
+set showcmd             " show command in bottom bar
+set cursorline          " highlight current line
+set lazyredraw          " redraw only when we need to
 set colorcolumn=80
-set formatprg=par
 set wildignore+=*/public/assets/*,*/tmp/*,*.so,*.swp,*.zip,*/coverage/*,*/node_modules/*
 set foldmethod=syntax
 set nofoldenable
@@ -26,7 +27,7 @@ noremap  <buffer> <silent> j gj
 syntax on
 filetype plugin indent on
 set list listchars=tab:»·,trail:·
-au BufNewFile,BufRead Guardfile set filetype=ruby
+au BufNewFile,BufRead Guardfile,Vagrantfile set filetype=ruby
 
 " tab settings for Makefiles
 " autocmd BufEnter ?akefile* set noet ts=8 sts=8 sw=8

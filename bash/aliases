@@ -4,6 +4,9 @@ alias rl="source ${DOT_PATH}/bashrc"
 
 alias la='ls -a'
 alias emacs='emacs -nw'
+alias git=hub
+alias hrc='heroku run console -r heroku'
+alias hrcs='heroku run console -r staging'
 
 # productivity stuff
 alias jnl='vim ${DOC_PATH}/journal/`date +%Y-%m-%d`.txt'
@@ -34,6 +37,7 @@ alias boo='cd ${PROJECT_PATH}/web_apps/boon-blog'
 alias bt='cd ${PROJECT_PATH}/web_apps/boon_top'
 alias ch='cd ${PROJECT_PATH}/web_apps/chai'
 alias hdown='cd ${PROJECT_PATH}/gems/hamdown'
+alias spu='cd ${PROJECT_PATH}/gems/speculate'
 alias mu='cd ${PROJECT_PATH}/open_source/mutant'
 alias rma='cd ${PROJECT_PATH}/open_source/rake-compiler-dev-box/rmagick'
 alias news='cd ${PROJECT_PATH}/web_apps/newsie'
@@ -58,6 +62,7 @@ alias rbp='rails_best_practices .'
 alias nogems="gem list | cut -f 1 -d ' ' | xargs gem uninstall -a"
 alias mutate="be mutant -I lib -d -r ./config/environment.rb -r ./app/models/user.rb --rspec-dm2 ::User"
 
+alias shonk="npm install && npm prune && npm dedupe && shonkwrap"
 # echo is to trim leading spaces
 alias killr='ps | grep ruby | xargs echo | cut -f 1 -d " " | xargs kill -9'
 alias killrb='ps | grep irb | xargs echo | cut -f 1 -d " " | xargs kill -9'

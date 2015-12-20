@@ -2,10 +2,7 @@
 . ~/Dropbox/dotfiles/bash/aliases
 . ~/Dropbox/dotfiles/bash/env
 . ~/Dropbox/dotfiles/bash/config
-
-if [[ -s "/usr/local/Cellar/git/1.7.4/etc/bash_completion.d/git-completion.bash" ]]; then
-  source "/usr/local/Cellar/git/1.7.4/etc/bash_completion.d/git-completion.bash"
-fi
+. ~/bin/hub.bash_completion.sh
 
 export PATH="~/bin:$PATH"
 
@@ -16,3 +13,7 @@ export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 # added by travis gem
 [ -f /home/fletch/.travis/travis.sh ] && source /home/fletch/.travis/travis.sh
+
+export NVM_DIR="/home/fletch/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
