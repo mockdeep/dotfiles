@@ -50,6 +50,9 @@ let g:ctrlp_show_hidden=1
 set ruler
 set autoindent    " always set autoindenting on
 
+" puts the caller
+nnoremap <leader>wtf oputs "#" * 90<c-m>puts caller<c-m>puts "#" * 90<esc>
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Test-running stuff
 " courtesy of Ben Orenstein: https://github.com/r00k/dotfiles/blob/master/vimrc
