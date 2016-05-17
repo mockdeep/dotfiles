@@ -69,11 +69,14 @@ alias killrb='ps | grep irb | xargs echo | cut -f 1 -d " " | xargs kill -9'
 alias testit='ruby -Ilib:test'
 alias countrb='for file in $(find . | grep \.rb$); do wc -l "$file"; done | sort -h'
 
+# gitty stuff
 alias bomb='ruby ${SCRIPT_PATH}/branch_bomb.rb'
 alias gp='git pull'
 alias gpu='git pull upstream master'
 alias gcm='git checkout master'
 alias gcs='git checkout staging'
+alias baes='for i in $(git br | grep $rf-); do git co $i; git rebase master || break; done; git co master'
+alias gitclean='git remote prune origin && git br --merged | grep rf- | xargs git br -d'
 function blamer {
     git ls-tree -r HEAD | sed -re 's/^.{53}//' | while read filename; do file "$filename"; done | grep -E ': .*text'|sed -r -e 's/: .*//' | while read filename; do git blame "$filename"; done | cut -f 2 -d '(' | cut -f 1 -d ' ' | sort | uniq -i -c | sort -h -r
 }
