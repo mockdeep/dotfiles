@@ -9,6 +9,10 @@ export PATH="~/bin:$PATH"
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
+# android studio
+export PATH="/usr/local/android-studio/bin:$PATH"
+export JAVA_HOME="/usr/lib/jvm/java-8-oracle/"
+
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 # added by travis gem
