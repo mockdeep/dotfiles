@@ -75,7 +75,7 @@ alias gp='git pull'
 alias gpu='git pull upstream master'
 alias gcm='git checkout master'
 alias gcs='git checkout staging'
-alias baes='for i in $(git br | grep $rf-); do git co $i; git rebase master || break; done; git co master'
+alias baes='for i in $(git br | grep -e "\srf-"); do git co $i; git rebase master || break; done; git co master'
 alias gitclean='git remote prune origin && git br --merged | grep rf- | xargs git br -d'
 function blamer {
     git ls-tree -r HEAD | sed -re 's/^.{53}//' | while read filename; do file "$filename"; done | grep -E ': .*text'|sed -r -e 's/: .*//' | while read filename; do git blame "$filename"; done | cut -f 2 -d '(' | cut -f 1 -d ' ' | sort | uniq -i -c | sort -h -r
