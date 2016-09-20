@@ -68,6 +68,9 @@ alias killr='ps | grep ruby | xargs echo | cut -f 1 -d " " | xargs kill -9'
 alias killrb='ps | grep irb | xargs echo | cut -f 1 -d " " | xargs kill -9'
 alias testit='ruby -Ilib:test'
 alias countrb='for file in $(find . | grep \.rb$); do wc -l "$file"; done | sort -h'
+alias ns='notify-send "that thing is done"'
+notify_sound="$DOT_PATH/sounds/notify.ogg"
+alias nsb='ns; ogg123 -q $notify_sound $notify_sound $notify_sound'
 
 # gitty stuff
 alias bomb='ruby ${SCRIPT_PATH}/branch_bomb.rb'
