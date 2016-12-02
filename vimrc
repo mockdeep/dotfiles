@@ -16,7 +16,7 @@ set showcmd             " show command in bottom bar
 set cursorline          " highlight current line
 set lazyredraw          " redraw only when we need to
 set colorcolumn=80
-set wildignore+=*/public/assets/*,*/tmp/*,*.so,*.swp,*.zip,*/coverage/*,*/node_modules/*
+set wildignore+=*/public/assets/*,*/tmp/*,*.so,*.swp,*.zip,*/coverage/*,*/node_modules/*,*/deps/*
 set foldmethod=syntax
 set nofoldenable
 set fdo-=search

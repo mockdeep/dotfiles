@@ -4,4 +4,6 @@ export HISTFILESIZE=10000
 export JAVA_HOME=/usr/
 export COLOR=true
 export EDITOR=vim
+# export PAGER=less
+# export LESS="-iMSx4 -FX"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
