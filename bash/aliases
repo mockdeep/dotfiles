@@ -65,7 +65,7 @@ alias rbp='rails_best_practices .'
 alias nogems="gem list | cut -f 1 -d ' ' | xargs gem uninstall -a"
 alias mutate="be mutant -I lib -d -r ./config/environment.rb -r ./app/models/user.rb --rspec-dm2 ::User"
 
-alias shonk="npm install && npm prune && npm dedupe && npm shrinkwrap && shonkwrap"
+alias shonk="npm install && npm prune && npm shrinkwrap && shonkwrap"
 # echo is to trim leading spaces
 alias killr='ps | grep ruby | xargs echo | cut -f 1 -d " " | xargs kill -9'
 alias killrb='ps | grep irb | xargs echo | cut -f 1 -d " " | xargs kill -9'
