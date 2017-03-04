@@ -49,6 +49,7 @@ alias todo='cd ${PROJECT_PATH}/web_apps/elements'
 
 # ruby/rails stuff
 alias spec="spec --color --format nested"
+alias fsd="foreman start -f Procfile.dev"
 alias sc='script/console'
 alias ss='script/server'
 alias sdbc='script/dbconsole'
