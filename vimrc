@@ -35,7 +35,6 @@ autocmd VimEnter * if !argc() | NERDTree | endif
 " remove all trailing spaces in file before saving
 " probably better to leave this out for now
 " autocmd BufWritePre * :%s/\s\+$//e
-set paste
 map <Leader>o :call RunCurrentLineInTest()<CR>
 map <Leader>t :w<cr>:call RunCurrentTest()<CR>
 nmap \nt :NERDTree<CR>

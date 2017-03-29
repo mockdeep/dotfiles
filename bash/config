@@ -88,5 +88,18 @@ function set_prompt {
     set_titlebar "$USER@${HOSTNAME%%.*} $PWD"
 }
 
-export PROMPT_COMMAND=set_prompt
+function enter_directory {
+    if [[ $PWD == $PREV_PWD ]]; then return; fi
+    PREV_PWD=$PWD
+    if [[ -e "package.json" ]]; then
+        nvm use `cat package.json | jq -r '.engines.node'`;
+    fi
+}
+
+function prompt_command {
+  enter_directory
+  set_prompt
+}
+
+export PROMPT_COMMAND=prompt_command
 export HISTCONTROL=ignoredups

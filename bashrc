@@ -3,6 +3,8 @@
 . ~/Dropbox/dotfiles/bash/env
 . ~/Dropbox/dotfiles/bash/config
 . ~/bin/hub.bash_completion.sh
+. /usr/share/bash-completion/bash_completion
+. /etc/profile.d/rvm.sh
 
 export PATH="~/bin:$PATH"
 
@@ -19,8 +21,8 @@ export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 [ -f /home/fletch/.travis/travis.sh ] && source /home/fletch/.travis/travis.sh
 
 export NVM_DIR="/home/fletch/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 hitch() {
   command hitch "$@"
