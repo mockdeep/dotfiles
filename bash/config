@@ -103,3 +103,4 @@ function prompt_command {
 
 export PROMPT_COMMAND=prompt_command
 export HISTCONTROL=ignoredups
+export HISTSIZE=1000
