@@ -2,11 +2,11 @@
 . ~/Dropbox/dotfiles/bash/aliases
 . ~/Dropbox/dotfiles/bash/env
 . ~/Dropbox/dotfiles/bash/config
-. ~/bin/hub.bash_completion.sh
+. ~/Dropbox/bin/hub.bash_completion.sh
 . /usr/share/bash-completion/bash_completion
 . /etc/profile.d/rvm.sh
 
-export PATH="~/bin:$PATH"
+export PATH="/home/fletch/Dropbox/bin:$PATH"
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
