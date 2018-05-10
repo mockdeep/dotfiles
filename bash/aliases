@@ -4,9 +4,9 @@ alias rl="source ${DOT_PATH}/bashrc"
 
 alias la='ls -a'
 alias emacs='emacs -nw'
-alias git=hub
 alias hrc='heroku run console -r heroku'
 alias hrcs='heroku run console -r staging'
+alias drst='while :; do clear; dropbox status; sleep 3; done'
 
 # productivity stuff
 alias jnl='vim ${DOC_PATH}/journal/`date +%Y-%m-%d`.txt'
@@ -55,14 +55,7 @@ alias ss='script/server'
 alias sdbc='script/dbconsole'
 alias rc="rails console"
 alias rs="rails server"
-alias zs="zeus server"
-alias zc="zeus console"
-alias remigrate='rake db:migrate VERSION=0 && rake db:migrate'
-alias gb='gem build *.gemspec && gem push *.gem && rm *.gem'
 alias gems='cd $GEM_HOME/gems'
-alias soc='cd ${PROJECT_PATH}/socrates'
-alias sql='cd ${PROJECT_PATH}/sql_sampler'
-alias rbp='rails_best_practices .'
 alias nogems="gem list | cut -f 1 -d ' ' | xargs gem uninstall -a"
 alias mutate="be mutant -I lib -d -r ./config/environment.rb -r ./app/models/user.rb --rspec-dm2 ::User"
 
@@ -76,15 +69,14 @@ notify_sound="$DOT_PATH/sounds/notify.ogg"
 alias nsb='ns; ogg123 -q $notify_sound $notify_sound $notify_sound'
 
 # gitty stuff
+alias git=hub
 alias bomb='ruby ${SCRIPT_PATH}/branch_bomb.rb'
 alias gp='git pull'
 alias gpu='git pull upstream master'
 alias gcm='git checkout master'
 alias gcs='git checkout staging'
 
-# $BRANCH_PREFIXES looks like "\s\(rf-\|robert-\)"
-alias baes='for i in $(git br | grep -e $BRANCH_PREFIXES); do git co $i; git rebase master || break; done; git co master'
-alias gitclean='git remote prune origin && git br --merged | grep -e $BRANCH_PREFIXES | xargs git br -d'
+alias gitclean='git remote prune origin && git br --merged | grep -v "\s\(master\|staging\)" | xargs -r git br -d'
 function blamer {
     git ls-tree -r HEAD | sed -re 's/^.{53}//' | while read filename; do file "$filename"; done | grep -E ': .*text'|sed -r -e 's/: .*//' | while read filename; do git blame "$filename"; done | cut -f 2 -d '(' | cut -f 1 -d ' ' | sort | uniq -i -c | sort -h -r
 }
@@ -125,12 +117,3 @@ if [[ `uname` == 'Darwin' ]]; then
 else
   alias ls='ls --color'
 fi
-
-# reset touchpad when it stops responding after opening laptop
-alias touchy='sudo modprobe -r psmouse && sudo modprobe psmouse'
-
-# remove trailing spaces
-alias notrail="find . -regextype posix-egrep -regex '.*\.(erb|rake|rb|js|haml|html|css|scss|java|coffee|yml)$' -type f -exec sed 's/[ \t]*$//' -i {} \;"
-
-# replace tabs with spaces
-alias notab="find . -regextype posix-egrep -regex '.*\.(erb|rake|rb|js|haml|html|css|scss|java|coffee|yml)$' -type f -exec sed 's/\t/  /g' -i {} \;"

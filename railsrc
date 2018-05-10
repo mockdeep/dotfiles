@@ -1,1 +1,1 @@
---skip-bundle -d postgresql -T --old-style-hash
+--skip-bundle -d postgresql

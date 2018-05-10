@@ -4,9 +4,8 @@
 . ~/Dropbox/dotfiles/bash/config
 . ~/Dropbox/bin/hub.bash_completion.sh
 . /usr/share/bash-completion/bash_completion
-. /etc/profile.d/rvm.sh
 
-export PATH="/home/fletch/Dropbox/bin:$PATH"
+export PATH="/home/fletch/Dropbox/bin:/home/fletch/Dropbox/scripts:$PATH"
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
@@ -14,8 +13,6 @@ export PATH="/usr/local/heroku/bin:$PATH"
 # android studio
 export PATH="/usr/local/android-studio/bin:$PATH"
 export JAVA_HOME="/usr/lib/jvm/java-8-oracle/"
-
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 # added by travis gem
 [ -f /home/fletch/.travis/travis.sh ] && source /home/fletch/.travis/travis.sh
@@ -29,3 +26,6 @@ hitch() {
   if [[ -s "$HOME/.hitch_export_authors" ]] ; then source "$HOME/.hitch_export_authors" ; fi
 }
 alias unhitch='hitch -u'
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
