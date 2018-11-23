@@ -1,6 +1,6 @@
 # work with dotfiles
-alias ea='vim ${DOT_PATH}/bash/aliases && rl'
-alias rl="source ${DOT_PATH}/bashrc"
+alias ea='vim $DOT_PATH/bash/aliases && rl'
+alias rl="source $DOT_PATH/bashrc"
 
 alias la='ls -a'
 alias emacs='emacs -nw'
@@ -9,11 +9,11 @@ alias hrcs='heroku run console -r staging'
 alias drst='while :; do clear; dropbox status; sleep 3; done'
 
 # productivity stuff
-alias jnl='vim ${DOC_PATH}/journal/`date +%Y-%m-%d`.txt'
+alias jnl='vim $DOC_PATH/journal/`date +%Y-%m-%d`.txt'
 
 function jrnl {
   today=`date +%Y-%m-%d`
-  filepath="${DOC_PATH}/journal"
+  filepath="$DOC_PATH/journal"
   i=0
   while [ -e "${filepath}/${today}.${i}.txt" ]; do
     let i=i+1
@@ -21,7 +21,7 @@ function jrnl {
   vim "${filepath}/${today}.${i}.txt"
 }
 
-alias outlines='cd ${DOC_PATH}/outlines'
+alias outlines='cd $DOC_PATH/outlines'
 alias lst='outlines && vi list.md && hamdown -f list.md -p 55 -c -t > list.html && firefox list.html'
 alias tasks="trello card list -l $TRELLO_NOW_LIST_ID | grep Name: | cut -f 2 -d ')'"
 
@@ -32,22 +32,22 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 # project paths
-alias bm='cd ${PROJECT_PATH}/web_apps/better'
-alias boo='cd ${PROJECT_PATH}/web_apps/boon-blog'
-alias bt='cd ${PROJECT_PATH}/web_apps/boon_top'
-alias ch='cd ${PROJECT_PATH}/web_apps/chai'
-alias conf='cd ${PROJECT_PATH}/open_source/configurator'
-alias gafk='cd ${PROJECT_PATH}/open_source/afk'
-alias hdown='cd ${PROJECT_PATH}/gems/hamdown'
-alias junk='cd ${PROJECT_PATH}/open_source/junk_drawer'
-alias mu='cd ${PROJECT_PATH}/open_source/mutant'
-alias news='cd ${PROJECT_PATH}/web_apps/newsie'
-alias rma='cd ${PROJECT_PATH}/open_source/rake-compiler-dev-box/rmagick'
-alias sjw='cd ${PROJECT_PATH}/open_source/sjfaq'
-alias spu='cd ${PROJECT_PATH}/gems/speculate'
-alias tds='cd ${PROJECT_PATH}/gems/todo_sync'
-alias ti='cd ${PROJECT_PATH}/web_apps/tithe'
-alias todo='cd ${PROJECT_PATH}/web_apps/elements'
+alias bm='cd $PROJECT_PATH/web_apps/better'
+alias boo='cd $PROJECT_PATH/web_apps/boon-blog'
+alias bt='cd $PROJECT_PATH/web_apps/boon_top'
+alias ch='cd $PROJECT_PATH/web_apps/chai'
+alias conf='cd $PROJECT_PATH/open_source/configurator'
+alias gafk='cd $PROJECT_PATH/open_source/afk'
+alias hdown='cd $PROJECT_PATH/gems/hamdown'
+alias junk='cd $PROJECT_PATH/open_source/junk_drawer'
+alias mu='cd $PROJECT_PATH/open_source/mutant'
+alias news='cd $PROJECT_PATH/web_apps/newsie'
+alias rma='cd $PROJECT_PATH/open_source/rake-compiler-dev-box/rmagick'
+alias sjw='cd $PROJECT_PATH/open_source/sjfaq'
+alias spu='cd $PROJECT_PATH/gems/speculate'
+alias tds='cd $PROJECT_PATH/gems/todo_sync'
+alias ti='cd $PROJECT_PATH/web_apps/tithe'
+alias todo='cd $PROJECT_PATH/web_apps/elements'
 
 # ruby/rails stuff
 alias spec="spec --color --format nested"
@@ -72,7 +72,7 @@ alias nsb='ns; ogg123 -q $notify_sound $notify_sound $notify_sound'
 
 # gitty stuff
 alias git=hub
-alias bomb='ruby ${SCRIPT_PATH}/branch_bomb.rb'
+alias bomb='ruby $SCRIPT_PATH/branch_bomb.rb'
 alias gp='git pull'
 alias gpu='git pull upstream master'
 alias gcm='git checkout master'
@@ -84,8 +84,8 @@ function blamer {
 }
 
 function jl {
-    cp -n ~/Templates/Document.odt ${DOC_PATH}/journal/`date +%Y-%m-%d`.odt
-    openit ${DOC_PATH}/journal/`date +%Y-%m-%d`.odt
+    cp -n ~/Templates/Document.odt $DOC_PATH/journal/`date +%Y-%m-%d`.odt
+    openit $DOC_PATH/journal/`date +%Y-%m-%d`.odt
 }
 
 # open a file, choosing utility based on Mac/Linux
@@ -100,7 +100,7 @@ function openit {
 alias o='openit'
 
 function list {
-    openit ${DOC_PATH}/lists/list.odt
+    openit $DOC_PATH/lists/list.odt
 }
 
 # search all files in this folder recursively for some text

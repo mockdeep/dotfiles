@@ -1,11 +1,13 @@
-. ~/Dropbox/dotfiles/bash/private
-. ~/Dropbox/dotfiles/bash/aliases
-. ~/Dropbox/dotfiles/bash/env
-. ~/Dropbox/dotfiles/bash/config
-. ~/Dropbox/bin/hub.bash_completion.sh
-. /usr/share/bash-completion/bash_completion
+FILE_ROOT=$HOME/Dropbox
 
-export PATH="/home/fletch/Dropbox/bin:/home/fletch/Dropbox/scripts:$PATH"
+source $FILE_ROOT/dotfiles/bash/private
+source $DOT_PATH/bash/aliases
+source $DOT_PATH/bash/env
+source $DOT_PATH/bash/config
+source $BIN_PATH/hub.bash_completion.sh
+source /usr/share/bash-completion/bash_completion
+
+export PATH="$BIN_PATH:$SCRIPT_PATH:$PATH"
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
@@ -15,11 +17,11 @@ export PATH="/usr/local/android-studio/bin:$PATH"
 export JAVA_HOME="/usr/lib/jvm/java-8-oracle/"
 
 # added by travis gem
-[ -f /home/fletch/.travis/travis.sh ] && source /home/fletch/.travis/travis.sh
+[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
-export NVM_DIR="/home/fletch/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
 
 hitch() {
   command hitch "$@"
