@@ -1,4 +1,4 @@
-FILE_ROOT=$HOME/Dropbox
+FILE_ROOT=$HOME/Sync
 
 source $FILE_ROOT/dotfiles/bash/private
 source $DOT_PATH/bash/aliases
