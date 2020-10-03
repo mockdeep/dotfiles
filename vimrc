@@ -7,11 +7,11 @@ set smarttab            " Smart tabbing!
 set shiftround          " < and > will hit indent levels instead of +-4 always
 set hlsearch
 set incsearch
-set relativenumber
 set number
 set wrap
 set linebreak
 set nolist
+set nojoinspaces
 set showcmd             " show command in bottom bar
 set cursorline          " highlight current line
 set lazyredraw          " redraw only when we need to

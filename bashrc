@@ -1,10 +1,10 @@
+/home/fletch/Sync/scripts/stat
 FILE_ROOT=$HOME/Sync
 
 source $FILE_ROOT/dotfiles/bash/private
 source $DOT_PATH/bash/aliases
 source $DOT_PATH/bash/env
 source $DOT_PATH/bash/config
-source $BIN_PATH/hub.bash_completion.sh
 source /usr/share/bash-completion/bash_completion
 
 export PATH="$BIN_PATH:$SCRIPT_PATH:$PATH"

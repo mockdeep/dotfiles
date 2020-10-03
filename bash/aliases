@@ -7,9 +7,14 @@ alias emacs='emacs -nw'
 alias hrc='heroku run console -r heroku'
 alias hrcs='heroku run console -r staging'
 alias drst='while :; do clear; dropbox status; sleep 3; done'
+alias o='xdg-open $@'
+alias rotate_left='ffmpeg -vf transpose=2 out.mp4 -i'
+alias rotate_right='ffmpeg -vf transpose=1 out.mp4 -i'
+alias rotate_twice='ffmpeg -vf transpose=2,transpose=2 out.mp4 -i'
 
 # productivity stuff
 alias jnl='vim $DOC_PATH/journal/`date +%Y-%m-%d`.txt'
+alias youtube-dl-playlist='youtube-dl --download-archive archive.txt -o "%(playlist_index)03d %(title)s.%(ext)s" $@'
 
 function jrnl {
   today=`date +%Y-%m-%d`
@@ -38,21 +43,29 @@ alias bt='cd $PROJECT_PATH/web_apps/boon_top'
 alias bud='cd $PROJECT_PATH/web_apps/budget'
 alias ch='cd $PROJECT_PATH/web_apps/chai'
 alias conf='cd $PROJECT_PATH/open_source/configurator'
+alias template='cd $PROJECT_PATH/open_source/template'
 alias gafk='cd $PROJECT_PATH/open_source/afk'
 alias hdown='cd $PROJECT_PATH/gems/hamdown'
 alias junk='cd $PROJECT_PATH/open_source/junk_drawer'
 alias mu='cd $PROJECT_PATH/open_source/mutant'
+alias rub='cd $PROJECT_PATH/open_source/ruby'
+alias im='cd $PROJECT_PATH/open_source/ImageMagick'
+alias im6='cd $PROJECT_PATH/open_source/ImageMagick6'
 alias news='cd $PROJECT_PATH/web_apps/newsie'
 alias rma='cd $PROJECT_PATH/open_source/rake-compiler-dev-box/rmagick'
-alias sjw='cd $PROJECT_PATH/open_source/sjfaq'
+alias sig='cd $PROJECT_PATH/open_source/signature-pad'
 alias spu='cd $PROJECT_PATH/gems/speculate'
 alias tds='cd $PROJECT_PATH/gems/todo_sync'
 alias ti='cd $PROJECT_PATH/web_apps/tithe'
 alias todo='cd $PROJECT_PATH/web_apps/elements'
+function os {
+  cd "$PROJECT_PATH/open_source/$1"
+}
 
 # ruby/rails stuff
 alias spec="spec --color --format nested"
-alias fsd="foreman start -f Procfile.dev"
+alias fsd="bundle && yarn && foreman start -f Procfile.dev"
+alias bundle_up="bundle && gem cleanup && bundle"
 alias sc='script/console'
 alias ss='script/server'
 alias sdbc='script/dbconsole'
@@ -61,6 +74,7 @@ alias rs="rails server"
 alias gems='cd $GEM_HOME/gems'
 alias nogems="gem list | cut -f 1 -d ' ' | xargs gem uninstall -a"
 alias mutate="be mutant -I lib -d -r ./config/environment.rb -r ./app/models/user.rb --rspec-dm2 ::User"
+alias crspec="SLOW=true DRIVER=chrome rspec"
 
 # echo is to trim leading spaces
 alias killr='ps | grep ruby | xargs echo | cut -f 1 -d " " | xargs kill -9'
@@ -72,14 +86,38 @@ notify_sound="$DOT_PATH/sounds/notify.ogg"
 alias nsb='ns; ogg123 -q $notify_sound $notify_sound $notify_sound'
 
 # gitty stuff
-alias git=hub
+grep_excludes=(':!*.svg' ':!*.pdf')
 alias bomb='ruby $SCRIPT_PATH/branch_bomb.rb'
 alias gp='git pull'
-alias gpu='git pull upstream master'
-alias gcm='git checkout master'
+alias gpu='git pull upstream main'
+alias gcm='git checkout main'
 alias gcs='git checkout staging'
+function gg() {
+  git grep -n "$1" -- './*' ${grep_excludes[@]}
+}
+function ggi() {
+  git grep -ni "$1" -- './*' ${grep_excludes[@]}
+}
+function ggl() {
+  git grep -l "$1" -- './*' ${grep_excludes[@]}
+}
+function gga() {
+  git grep -n "$1" -- app/ ${grep_excludes[@]}
+}
+function ggia() {
+  git grep -ni "$1" -- app/ ${grep_excludes[@]}
+}
+function ggs() {
+  git grep -ni "$1" -- spec/ ${grep_excludes[@]}
+}
+function ggjs() {
+  git grep -n "$1" -- app/javascript/ ${grep_excludes[@]}
+}
 
-alias gitclean='git remote prune origin && git br --merged | grep -v "\s\(master\|staging\)" | xargs -r git br -d'
+alias gitclean='git remote prune $(git remote) && git br --merged | grep -v "\s\(main\|staging\)" | xargs -r git br -d'
+alias gitage='for branch in $(git branch | grep -v "*"); do echo "$(git log -1 $branch --format=%ai) $branch"; done | sort'
+alias rubodiff='git diff main --name-only | xargs rubocop -a'
+alias touchdiff='git diff main --name-only | xargs touch'
 function blamer {
     git ls-tree -r HEAD | sed -re 's/^.{53}//' | while read filename; do file "$filename"; done | grep -E ': .*text'|sed -r -e 's/: .*//' | while read filename; do git blame "$filename"; done | cut -f 2 -d '(' | cut -f 1 -d ' ' | sort | uniq -i -c | sort -h -r
 }
@@ -88,17 +126,6 @@ function jl {
     cp -n ~/Templates/Document.odt $DOC_PATH/journal/`date +%Y-%m-%d`.odt
     openit $DOC_PATH/journal/`date +%Y-%m-%d`.odt
 }
-
-# open a file, choosing utility based on Mac/Linux
-function openit {
-    unamestr=`uname`
-    if [[ $unamestr == 'Darwin' ]]; then
-        open $1
-    else
-        xdg-open $1
-    fi
-}
-alias o='openit'
 
 function list {
     openit $DOC_PATH/lists/list.odt
@@ -113,6 +140,14 @@ function grepit {
 function grepap {
     grep -nr "$1" lib/*
     grep -nr "$1" app/*
+}
+
+function keep_trying() {
+  until eval $@; do echo "trying again"; done; ns
+}
+
+function try_to_fail() {
+  while eval $@; do echo "trying again"; done; ns
 }
 
 if [[ `uname` == 'Darwin' ]]; then
