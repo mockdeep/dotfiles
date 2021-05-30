@@ -6,3 +6,6 @@
 binstubs
 db/test.sqlite3-journal
 .scrum-lint.yml
+.env.local
+.env.test.local
+.obsidian

@@ -23,6 +23,7 @@ set fdo-=search
 set scrolloff=5
 set autoread
 set history=1000
+set shortmess-=S        " show search count
 
 highlight ColorColumn ctermbg=0
 noremap  <buffer> <silent> k gk

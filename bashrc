@@ -1,5 +1,4 @@
-/home/fletch/Sync/scripts/stat
-FILE_ROOT=$HOME/Sync
+FILE_ROOT=$HOME/Dropbox
 
 source $FILE_ROOT/dotfiles/bash/private
 source $DOT_PATH/bash/aliases

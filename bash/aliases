@@ -5,6 +5,7 @@ alias rl="source $DOT_PATH/bashrc"
 alias la='ls -a'
 alias emacs='emacs -nw'
 alias hrc='heroku run console -r heroku'
+alias hrcp='heroku run console -r heroku --size=performance-L'
 alias hrcs='heroku run console -r staging'
 alias drst='while :; do clear; dropbox status; sleep 3; done'
 alias o='xdg-open $@'
@@ -75,6 +76,7 @@ alias gems='cd $GEM_HOME/gems'
 alias nogems="gem list | cut -f 1 -d ' ' | xargs gem uninstall -a"
 alias mutate="be mutant -I lib -d -r ./config/environment.rb -r ./app/models/user.rb --rspec-dm2 ::User"
 alias crspec="SLOW=true DRIVER=chrome rspec"
+alias srspec="SLOW=true DRIVER=selenium rspec"
 
 # echo is to trim leading spaces
 alias killr='ps | grep ruby | xargs echo | cut -f 1 -d " " | xargs kill -9'
@@ -114,10 +116,16 @@ function ggjs() {
   git grep -n "$1" -- app/javascript/ ${grep_excludes[@]}
 }
 
-alias gitclean='git remote prune $(git remote) && git br --merged | grep -v "\s\(main\|staging\)" | xargs -r git br -d'
+function gitclean() {
+  git remote prune $(git remote -v | grep -v heroku | cut -f 1 | uniq)
+  git gc --prune=now
+  echo "***"
+  git br --merged | grep -v "\s\(main\|master\|staging\)" | xargs -r git br -d
+}
 alias gitage='for branch in $(git branch | grep -v "*"); do echo "$(git log -1 $branch --format=%ai) $branch"; done | sort'
-alias rubodiff='git diff main --name-only | xargs rubocop -a'
-alias touchdiff='git diff main --name-only | xargs touch'
+alias rubodiff='git diff main --name-only --diff-filter=ACM | grep \\.rb$ | xargs rubocop -A --force-exclusion'
+alias rubogen='rubocop --auto-gen-config --auto-gen-only-exclude'
+alias touchdiff='git diff main --name-only --diff-filter=ACM | xargs touch'
 function blamer {
     git ls-tree -r HEAD | sed -re 's/^.{53}//' | while read filename; do file "$filename"; done | grep -E ': .*text'|sed -r -e 's/: .*//' | while read filename; do git blame "$filename"; done | cut -f 2 -d '(' | cut -f 1 -d ' ' | sort | uniq -i -c | sort -h -r
 }
@@ -144,6 +152,13 @@ function grepap {
 
 function keep_trying() {
   until eval $@; do echo "trying again"; done; ns
+}
+
+function dedupe() {
+  until yarn deduplicate --fail; do
+  yarn deduplicate
+  yarn
+  done
 }
 
 function try_to_fail() {
