@@ -65,8 +65,9 @@ function os {
 
 # ruby/rails stuff
 alias spec="spec --color --format nested"
-alias fsd="bundle && yarn && foreman start -f Procfile.dev"
+alias fsd="bundle && yarn && rails assets:clean assets:clobber && foreman start -f Procfile.dev"
 alias bundle_up="bundle && gem cleanup && bundle"
+alias by='bundle; yarn'
 alias sc='script/console'
 alias ss='script/server'
 alias sdbc='script/dbconsole'
@@ -106,6 +107,9 @@ function ggl() {
 function gga() {
   git grep -n "$1" -- app/ ${grep_excludes[@]}
 }
+function ggal() {
+  git grep -n -l "$1" -- app/ ${grep_excludes[@]}
+}
 function ggia() {
   git grep -ni "$1" -- app/ ${grep_excludes[@]}
 }
@@ -124,7 +128,7 @@ function gitclean() {
 }
 alias gitage='for branch in $(git branch | grep -v "*"); do echo "$(git log -1 $branch --format=%ai) $branch"; done | sort'
 alias rubodiff='git diff main --name-only --diff-filter=ACM | grep \\.rb$ | xargs rubocop -A --force-exclusion'
-alias rubogen='rubocop --auto-gen-config --auto-gen-only-exclude'
+alias rubogen='rubocop --auto-gen-config --auto-gen-only-exclude --exclude-limit 400'
 alias touchdiff='git diff main --name-only --diff-filter=ACM | xargs touch'
 function blamer {
     git ls-tree -r HEAD | sed -re 's/^.{53}//' | while read filename; do file "$filename"; done | grep -E ': .*text'|sed -r -e 's/: .*//' | while read filename; do git blame "$filename"; done | cut -f 2 -d '(' | cut -f 1 -d ' ' | sort | uniq -i -c | sort -h -r
@@ -132,11 +136,11 @@ function blamer {
 
 function jl {
     cp -n ~/Templates/Document.odt $DOC_PATH/journal/`date +%Y-%m-%d`.odt
-    openit $DOC_PATH/journal/`date +%Y-%m-%d`.odt
+    o $DOC_PATH/journal/`date +%Y-%m-%d`.odt
 }
 
 function list {
-    openit $DOC_PATH/lists/list.odt
+    o $DOC_PATH/lists/list.odt
 }
 
 # search all files in this folder recursively for some text

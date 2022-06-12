@@ -32,6 +32,7 @@ syntax on
 filetype plugin indent on
 set list listchars=tab:»·,trail:·
 au BufNewFile,BufRead Guardfile,Vagrantfile set filetype=ruby
+au BufNewFile,BufRead *.tsx set filetype=typescript
 
 " tab settings for Makefiles
 " autocmd BufEnter ?akefile* set noet ts=8 sts=8 sw=8
@@ -56,3 +57,4 @@ set autoindent    " always set autoindenting on
 
 " puts the caller
 nnoremap <leader>wtf oputs "#" * 90<c-m>puts caller<c-m>puts "#" * 90<esc>
+noremap <C-y> "+y
