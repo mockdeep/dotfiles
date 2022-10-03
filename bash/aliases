@@ -96,31 +96,32 @@ alias gpu='git pull upstream main'
 alias gcm='git checkout main'
 alias gcs='git checkout staging'
 function gg() {
-  git grep -n "$1" -- './*' ${grep_excludes[@]}
+  git grep -n "$@" -- './*' ${grep_excludes[@]}
 }
 function ggi() {
-  git grep -ni "$1" -- './*' ${grep_excludes[@]}
+  git grep -ni "$@" -- './*' ${grep_excludes[@]}
 }
 function ggl() {
-  git grep -l "$1" -- './*' ${grep_excludes[@]}
+  git grep -l "$@" -- './*' ${grep_excludes[@]}
 }
 function gga() {
-  git grep -n "$1" -- app/ ${grep_excludes[@]}
+  git grep -n "$@" -- app/ ${grep_excludes[@]}
 }
 function ggal() {
-  git grep -n -l "$1" -- app/ ${grep_excludes[@]}
+  git grep -n -l "$@" -- app/ ${grep_excludes[@]}
 }
 function ggia() {
-  git grep -ni "$1" -- app/ ${grep_excludes[@]}
+  git grep -ni "$@" -- app/ ${grep_excludes[@]}
 }
 function ggs() {
-  git grep -ni "$1" -- spec/ ${grep_excludes[@]}
+  git grep -ni "$@" -- spec/ ${grep_excludes[@]}
 }
 function ggjs() {
-  git grep -n "$1" -- app/javascript/ ${grep_excludes[@]}
+  git grep -n "$@" -- app/javascript/ spec/javascript ${grep_excludes[@]}
 }
 
 function gitclean() {
+  git checkout main
   git remote prune $(git remote -v | grep -v heroku | cut -f 1 | uniq)
   git gc --prune=now
   echo "***"
@@ -128,10 +129,15 @@ function gitclean() {
 }
 alias gitage='for branch in $(git branch | grep -v "*"); do echo "$(git log -1 $branch --format=%ai) $branch"; done | sort'
 alias rubodiff='git diff main --name-only --diff-filter=ACM | grep \\.rb$ | xargs rubocop -A --force-exclusion'
+alias esdiff='git diff main --name-only --diff-filter=ACM | grep \\.ts | xargs ./node_modules/eslint/bin/eslint.js --cache --fix'
 alias rubogen='rubocop --auto-gen-config --auto-gen-only-exclude --exclude-limit 400'
 alias touchdiff='git diff main --name-only --diff-filter=ACM | xargs touch'
 function blamer {
     git ls-tree -r HEAD | sed -re 's/^.{53}//' | while read filename; do file "$filename"; done | grep -E ': .*text'|sed -r -e 's/: .*//' | while read filename; do git blame "$filename"; done | cut -f 2 -d '(' | cut -f 1 -d ' ' | sort | uniq -i -c | sort -h -r
+}
+alias reponame="git remote -v | grep github.*fetch | cut -f 2 -d ':' | cut -f 1 -d '.'"
+function obuild {
+  o https://app.circleci.com/pipelines/github/`reponame`?branch=`git branch --show-current`
 }
 
 function jl {
