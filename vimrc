@@ -36,19 +36,6 @@ au BufNewFile,BufRead *.tsx set filetype=typescript
 
 " tab settings for Makefiles
 " autocmd BufEnter ?akefile* set noet ts=8 sts=8 sw=8
-autocmd VimEnter * if !argc() | NERDTree | endif
-" remove all trailing spaces in file before saving
-" probably better to leave this out for now
-" autocmd BufWritePre * :%s/\s\+$//e
-nmap \nt :NERDTree<CR>
-nmap \nc :NERDTreeClose<CR>
-nmap \jl :JSLintToggle<CR>
-nmap \ju :JSLintUpdate<CR>
-nmap \jo :let g:JSLintHighlightErrorLine = 0<CR>:JSLintUpdate<CR>
-nmap \jn :let g:JSLintHighlightErrorLine = 1<CR>:JSLintUpdate<CR>
-nmap \rt :retab<CR>:%s/\s\+$//ge<CR>
-let g:ctrlp_max_files=0
-let g:ctrlp_show_hidden=1
 let g:javascript_plugin_flow = 1
 let g:jsx_ext_required = 0
 

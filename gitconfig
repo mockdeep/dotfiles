@@ -39,3 +39,5 @@
 	helper = !/usr/bin/gh auth git-credential
 [diff]
 	algorithm = histogram
+[advice]
+	skippedCherryPicks = false

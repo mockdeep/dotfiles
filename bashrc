@@ -9,7 +9,7 @@ source /usr/share/bash-completion/bash_completion
 export PATH="$BIN_PATH:$SCRIPT_PATH:$PATH"
 
 ### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
+export PATH="/usr/local/bin:$PATH"
 
 # android studio
 export PATH="/usr/local/android-studio/bin:$PATH"

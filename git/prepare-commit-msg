@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+TEMPLATE_PATH = '.git/hooks/commit_templates'
+
+commit_file, commit_type = ARGV
+
+exit 0 if commit_type
+
+branch_base = `git branch --show-current`.strip.sub(/_\d+$/, '')
+commit_template = ".git/hooks/commit_templates/#{branch_base}"
+
+p branch_base
+
+template =
+  if File.exist?("#{TEMPLATE_PATH}/#{branch_base}")
+    File.read("#{TEMPLATE_PATH}/#{branch_base}")
+  else
+    File.read("#{TEMPLATE_PATH}/default")
+  end
+
+file_contents = File.read(commit_file)
+
+
+File.write(commit_file, [template, file_contents].join)

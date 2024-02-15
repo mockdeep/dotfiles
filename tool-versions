@@ -1,6 +1,6 @@
-ruby 3.0.3
+ruby 3.2.2
 bundler 2.2.26
-nodejs 14.17.5
+nodejs 18.16.0
 yarn 1.22.10
-postgres system
-redis system
+postgres 15.5
+redis 6.2.3

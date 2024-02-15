@@ -13,6 +13,14 @@ alias rotate_left='ffmpeg -vf transpose=2 out.mp4 -i'
 alias rotate_right='ffmpeg -vf transpose=1 out.mp4 -i'
 alias rotate_twice='ffmpeg -vf transpose=2,transpose=2 out.mp4 -i'
 
+function vimcheck {
+  vim $(git diff --check | cut -f 1 -d ':' | uniq)
+}
+
+function vimbranch {
+  vim $(git diff main --name-only | uniq)
+}
+
 # productivity stuff
 alias jnl='vim $DOC_PATH/journal/`date +%Y-%m-%d`.txt'
 alias youtube-dl-playlist='youtube-dl --download-archive archive.txt -o "%(playlist_index)03d %(title)s.%(ext)s" $@'
@@ -65,9 +73,13 @@ function os {
 
 # ruby/rails stuff
 alias spec="spec --color --format nested"
-alias fsd="bundle && yarn && rails assets:clean assets:clobber && foreman start -f Procfile.dev"
+alias stopsyn="syn; pg_ctl stop; cd -"
+alias stopstr="stringer; pg_ctl stop; cd -"
+alias fsd="bundle && yarn && pg_ctl start && rails assets:clean assets:clobber && foreman start -f Procfile.dev; pg_ctl stop"
 alias bundle_up="bundle && gem cleanup && bundle"
-alias by='bundle; yarn'
+alias b='bundle'
+alias by='bundle; yarn --ignore-engines'
+alias y='yarn'
 alias sc='script/console'
 alias ss='script/server'
 alias sdbc='script/dbconsole'
@@ -78,6 +90,8 @@ alias nogems="gem list | cut -f 1 -d ' ' | xargs gem uninstall -a"
 alias mutate="be mutant -I lib -d -r ./config/environment.rb -r ./app/models/user.rb --rspec-dm2 ::User"
 alias crspec="SLOW=true DRIVER=chrome rspec"
 alias srspec="SLOW=true DRIVER=selenium rspec"
+alias yat='yarn eslint --fix && yarn test --coverage --maxWorkers=4'
+alias yj='yarn jest --maxWorkers=4'
 
 # echo is to trim leading spaces
 alias killr='ps | grep ruby | xargs echo | cut -f 1 -d " " | xargs kill -9'
@@ -91,10 +105,20 @@ alias nsb='ns; ogg123 -q $notify_sound $notify_sound $notify_sound'
 # gitty stuff
 grep_excludes=(':!*.svg' ':!*.pdf')
 alias bomb='ruby $SCRIPT_PATH/branch_bomb.rb'
+alias bas='baes --auto-skip'
+alias gd='git diff'
+alias gl='git log'
+alias gds='git diff --staged'
+alias gdm='git diff main'
 alias gp='git pull'
 alias gpu='git pull upstream main'
+alias gad='git add .'
+alias gca='git -c core.editor=true commit --amend'
 alias gcm='git checkout main'
 alias gcs='git checkout staging'
+alias gra='git rebase --abort'
+alias grc='git add . && git -c core.editor=true rebase --continue'
+alias gst='git status -s'
 function gg() {
   git grep -n "$@" -- './*' ${grep_excludes[@]}
 }
@@ -130,7 +154,9 @@ function gitclean() {
 alias gitage='for branch in $(git branch | grep -v "*"); do echo "$(git log -1 $branch --format=%ai) $branch"; done | sort'
 alias rubodiff='git diff main --name-only --diff-filter=ACM | grep \\.rb$ | xargs rubocop -A --force-exclusion'
 alias esdiff='git diff main --name-only --diff-filter=ACM | grep \\.ts | xargs ./node_modules/eslint/bin/eslint.js --cache --fix'
+alias esopen='vim $(yarn eslint 2>&1 | grep "^/")'
 alias rubogen='rubocop --auto-gen-config --auto-gen-only-exclude --exclude-limit 400'
+alias hamlgen='rubocop --auto-gen-config --auto-gen-only-exclude --exclude-limit 400'
 alias touchdiff='git diff main --name-only --diff-filter=ACM | xargs touch'
 function blamer {
     git ls-tree -r HEAD | sed -re 's/^.{53}//' | while read filename; do file "$filename"; done | grep -E ': .*text'|sed -r -e 's/: .*//' | while read filename; do git blame "$filename"; done | cut -f 2 -d '(' | cut -f 1 -d ' ' | sort | uniq -i -c | sort -h -r

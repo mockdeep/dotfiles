@@ -2,6 +2,7 @@ bundler
 foreman
 hookup
 mailcatcher
+neovim
 pry
 rubygems-bundler
 solargraph

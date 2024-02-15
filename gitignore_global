@@ -9,3 +9,4 @@ db/test.sqlite3-journal
 .env.local
 .env.test.local
 .obsidian
+dump.rdb
