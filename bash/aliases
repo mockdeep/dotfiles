@@ -24,6 +24,7 @@ function vimbranch {
 # productivity stuff
 alias jnl='vim $DOC_PATH/journal/`date +%Y-%m-%d`.txt'
 alias youtube-dl-playlist='youtube-dl --download-archive archive.txt -o "%(playlist_index)03d %(title)s.%(ext)s" $@'
+alias dl_series='yt-dlp -o "%(autonumber)03d %(title)s.%(ext)s" --playlist-reverse'
 
 function jrnl {
   today=`date +%Y-%m-%d`
@@ -85,7 +86,11 @@ alias ss='script/server'
 alias sdbc='script/dbconsole'
 alias rc="rails console"
 alias rs="rails server"
-alias gems='cd $GEM_HOME/gems'
+
+function cd_gem() {
+  cd `bundle show $@`
+}
+
 alias nogems="gem list | cut -f 1 -d ' ' | xargs gem uninstall -a"
 alias mutate="be mutant -I lib -d -r ./config/environment.rb -r ./app/models/user.rb --rspec-dm2 ::User"
 alias crspec="SLOW=true DRIVER=chrome rspec"

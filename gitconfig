@@ -27,6 +27,7 @@
 	rebase = true
 [merge]
 	tool = vimdiff
+	conflictstyle = zdiff3
 [init]
 	defaultBranch = main
 [fetch]
@@ -41,3 +42,5 @@
 	algorithm = histogram
 [advice]
 	skippedCherryPicks = false
+[rebase]
+	autostash = true
