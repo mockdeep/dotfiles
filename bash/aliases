@@ -3,7 +3,6 @@ alias ea='vim $DOT_PATH/bash/aliases && rl'
 alias rl="source $DOT_PATH/bashrc"
 
 alias la='ls -a'
-alias emacs='emacs -nw'
 alias hrc='heroku run console -r heroku'
 alias hrcp='heroku run console -r heroku --size=performance-L'
 alias hrcs='heroku run console -r staging'
@@ -22,7 +21,6 @@ function vimbranch {
 }
 
 # productivity stuff
-alias jnl='vim $DOC_PATH/journal/`date +%Y-%m-%d`.txt'
 alias youtube-dl-playlist='youtube-dl --download-archive archive.txt -o "%(playlist_index)03d %(title)s.%(ext)s" $@'
 alias dl_series='yt-dlp -o "%(autonumber)03d %(title)s.%(ext)s" --playlist-reverse'
 
@@ -35,10 +33,6 @@ function jrnl {
   done
   vim "${filepath}/${today}.${i}.txt"
 }
-
-alias outlines='cd $DOC_PATH/outlines'
-alias lst='outlines && vi list.md && hamdown -f list.md -p 55 -c -t > list.html && firefox list.html'
-alias tasks="trello card list -l $TRELLO_NOW_LIST_ID | grep Name: | cut -f 2 -d ')'"
 
 # system stuff
 alias ud="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade"
@@ -73,7 +67,6 @@ function os {
 }
 
 # ruby/rails stuff
-alias spec="spec --color --format nested"
 alias stopsyn="syn; pg_ctl stop; cd -"
 alias stopstr="stringer; pg_ctl stop; cd -"
 alias fsd="bundle && yarn && pg_ctl start && rails assets:clean assets:clobber && foreman start -f Procfile.dev; pg_ctl stop"
@@ -91,25 +84,15 @@ function cd_gem() {
   cd `bundle show $@`
 }
 
-alias nogems="gem list | cut -f 1 -d ' ' | xargs gem uninstall -a"
-alias mutate="be mutant -I lib -d -r ./config/environment.rb -r ./app/models/user.rb --rspec-dm2 ::User"
-alias crspec="SLOW=true DRIVER=chrome rspec"
-alias srspec="SLOW=true DRIVER=selenium rspec"
 alias yat='yarn eslint --fix && yarn test --coverage --maxWorkers=4'
 alias yj='yarn jest --maxWorkers=4'
 
-# echo is to trim leading spaces
-alias killr='ps | grep ruby | xargs echo | cut -f 1 -d " " | xargs kill -9'
-alias killrb='ps | grep irb | xargs echo | cut -f 1 -d " " | xargs kill -9'
-alias testit='ruby -Ilib:test'
-alias countrb='for file in $(find . | grep \.rb$); do wc -l "$file"; done | sort -h'
 alias ns='notify-send "that thing is done"'
 notify_sound="$DOT_PATH/sounds/notify.ogg"
 alias nsb='ns; ogg123 -q $notify_sound $notify_sound $notify_sound'
 
 # gitty stuff
 grep_excludes=(':!*.svg' ':!*.pdf')
-alias bomb='ruby $SCRIPT_PATH/branch_bomb.rb'
 alias bas='baes --auto-skip'
 alias gd='git diff'
 alias gl='git log'
@@ -122,6 +105,7 @@ alias gca='git -c core.editor=true commit --amend'
 alias gcm='git checkout main'
 alias gcs='git checkout staging'
 alias gra='git rebase --abort'
+alias grm='git rebase main'
 alias grc='git add . && git -c core.editor=true rebase --continue'
 alias gst='git status -s'
 function gg() {
@@ -163,21 +147,9 @@ alias esopen='vim $(yarn eslint 2>&1 | grep "^/")'
 alias rubogen='rubocop --auto-gen-config --auto-gen-only-exclude --exclude-limit 400'
 alias hamlgen='rubocop --auto-gen-config --auto-gen-only-exclude --exclude-limit 400'
 alias touchdiff='git diff main --name-only --diff-filter=ACM | xargs touch'
-function blamer {
-    git ls-tree -r HEAD | sed -re 's/^.{53}//' | while read filename; do file "$filename"; done | grep -E ': .*text'|sed -r -e 's/: .*//' | while read filename; do git blame "$filename"; done | cut -f 2 -d '(' | cut -f 1 -d ' ' | sort | uniq -i -c | sort -h -r
-}
 alias reponame="git remote -v | grep github.*fetch | cut -f 2 -d ':' | cut -f 1 -d '.'"
 function obuild {
   o https://app.circleci.com/pipelines/github/`reponame`?branch=`git branch --show-current`
-}
-
-function jl {
-    cp -n ~/Templates/Document.odt $DOC_PATH/journal/`date +%Y-%m-%d`.odt
-    o $DOC_PATH/journal/`date +%Y-%m-%d`.odt
-}
-
-function list {
-    o $DOC_PATH/lists/list.odt
 }
 
 # search all files in this folder recursively for some text
