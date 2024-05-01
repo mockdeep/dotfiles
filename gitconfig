@@ -44,3 +44,7 @@
 	skippedCherryPicks = false
 [rebase]
 	autostash = true
+[rerere]
+	enabled = true
+[maintenance]
+	repo = /home/fletch/Dropbox/projects/chalk/synchroform
