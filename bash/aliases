@@ -59,16 +59,19 @@ function os {
 # ruby/rails stuff
 alias stopsyn="syn; pg_ctl stop; cd -"
 alias stopstr="stringer; pg_ctl stop; cd -"
-alias fsd="bundle && yarn && pg_ctl start && rails assets:clean assets:clobber && foreman start -f Procfile.dev; pg_ctl stop"
+alias fsd="bundle && yarn && rails assets:clean assets:clobber && foreman start -f Procfile.dev"
 alias bundle_up="bundle && gem cleanup && bundle"
 alias b='bundle'
-alias by='bundle; yarn --ignore-engines'
+alias by='bundle; test -f yarn.lock && yarn --ignore-engines'
 alias y='yarn'
 alias sc='script/console'
 alias ss='script/server'
 alias sdbc='script/dbconsole'
 alias rc="rails console"
 alias rs="rails server"
+alias pg="pg_ctl start"
+alias pgs="pg_ctl stop"
+alias pgr="pg_ctl start && redis-server; pg_ctl stop"
 
 function cd_gem() {
   cd `bundle show $@`
@@ -86,8 +89,10 @@ grep_excludes=(':!*.svg' ':!*.pdf')
 alias bas='baes --auto-skip'
 alias gd='git diff'
 alias gl='git log'
+alias glp='git log -p'
 alias gds='git diff --staged'
 alias gdm='git diff main'
+alias gdw='git diff -w'
 alias gp='git pull'
 alias gpu='git pull upstream main'
 alias gad='git add .'
