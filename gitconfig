@@ -27,7 +27,6 @@
 	rebase = true
 [merge]
 	tool = vimdiff
-	conflictstyle = zdiff3
 [init]
 	defaultBranch = main
 [fetch]

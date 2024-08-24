@@ -5,7 +5,7 @@ alias rl="source $DOT_PATH/bashrc"
 alias la='ls -a'
 alias hrc='heroku run console -r heroku'
 alias hrcp='heroku run console -r heroku --size=performance-L'
-alias hrcs='heroku run console -r staging'
+alias hrcw='heroku run console -r heroku -- -w'
 alias drst='while :; do clear; dropbox status; sleep 3; done'
 alias o='xdg-open $@'
 alias rotate_left='ffmpeg -vf transpose=2 out.mp4 -i'
@@ -59,7 +59,7 @@ function os {
 # ruby/rails stuff
 alias stopsyn="syn; pg_ctl stop; cd -"
 alias stopstr="stringer; pg_ctl stop; cd -"
-alias fsd="bundle && yarn && rails assets:clean assets:clobber && foreman start -f Procfile.dev"
+alias fsd="bundle && yarn && rails assets:clobber && foreman start -f Procfile.dev"
 alias bundle_up="bundle && gem cleanup && bundle"
 alias b='bundle'
 alias by='bundle; test -f yarn.lock && yarn --ignore-engines'
@@ -86,8 +86,9 @@ alias nsb='ns; ogg123 -q $notify_sound $notify_sound $notify_sound'
 
 # gitty stuff
 grep_excludes=(':!*.svg' ':!*.pdf')
-alias bas='baes --auto-skip'
+alias bas='baes rebase --auto-skip'
 alias gd='git diff'
+alias gd1='git diff HEAD~1'
 alias gl='git log'
 alias glp='git log -p'
 alias gds='git diff --staged'
@@ -100,9 +101,13 @@ alias gca='git -c core.editor=true commit --amend'
 alias gcm='git checkout main'
 alias gcs='git checkout staging'
 alias gra='git rebase --abort'
-alias grm='git rebase main'
 alias grc='git add . && git -c core.editor=true rebase --continue'
+alias grm='git rebase main'
+alias grs='git rebase --skip'
 alias gst='git status -s'
+alias vh='vim $(git show --pretty="format:" --name-only)'
+alias vo='vim $(git diff --staged --name-only)'
+
 function gg() {
   git grep -n "$@" -- './*' ${grep_excludes[@]}
 }
@@ -128,6 +133,10 @@ function ggjs() {
   git grep -n "$@" -- app/javascript/ spec/javascript ${grep_excludes[@]}
 }
 
+function vg() {
+  vim $(ggl "$@")
+}
+
 function gitclean() {
   git checkout main
   git remote prune $(git remote -v | grep -v heroku | cut -f 1 | uniq)
@@ -135,12 +144,15 @@ function gitclean() {
   echo "***"
   git br --merged | grep -v "\s\(main\|master\|staging\)" | xargs -r git br -d
 }
+
+alias gcl='gitclean'
 alias gitage='for branch in $(git branch | grep -v "*"); do echo "$(git log -1 $branch --format=%ai) $branch"; done | sort'
 alias rubodiff='git diff main --name-only --diff-filter=ACM | grep \\.rb$ | xargs rubocop -A --force-exclusion'
 alias esdiff='git diff main --name-only --diff-filter=ACM | grep \\.ts | xargs ./node_modules/eslint/bin/eslint.js --cache --fix'
 alias esopen='vim $(yarn eslint 2>&1 | grep "^/")'
 alias rubogen='rubocop --auto-gen-config --auto-gen-only-exclude --exclude-limit 400'
 alias hamlgen='rubocop --auto-gen-config --auto-gen-only-exclude --exclude-limit 400'
+alias ra='rubocop -A'
 alias touchdiff='git diff main --name-only --diff-filter=ACM | xargs touch'
 alias reponame="git remote -v | grep github.*fetch | cut -f 2 -d ':' | cut -f 1 -d '.'"
 function obuild {
