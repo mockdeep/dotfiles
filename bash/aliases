@@ -56,6 +56,15 @@ function os {
   cd "$PROJECT_PATH/open_source/$1"
 }
 
+function _completeOs {
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local os_dir="$PROJECT_PATH/open_source"
+  local os_list=`ls --color=never $os_dir`
+  COMPREPLY=( $(compgen -W "$os_list" -- $cur) )
+}
+
+complete -F _completeOs os
+
 # ruby/rails stuff
 alias stopsyn="syn; pg_ctl stop; cd -"
 alias stopstr="stringer; pg_ctl stop; cd -"
