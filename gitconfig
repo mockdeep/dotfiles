@@ -16,13 +16,14 @@
   dif = diff --word-diff=color --word-diff-regex=.
 	prn = pull-request
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-	pushf = push --force-with-lease
+	pushf = push --force-with-lease --force-if-includes
 [color]
 	ui = true
 [branch]
 	autosetuprebase = always
 [push]
 	default = current
+	useForceIfIncludes = true
 [pull]
 	rebase = true
 [merge]

@@ -6,7 +6,6 @@ alias la='ls -a'
 alias hrc='heroku run console -r heroku'
 alias hrcp='heroku run console -r heroku --size=performance-L'
 alias hrcw='heroku run console -r heroku -- -w'
-alias drst='while :; do clear; dropbox status; sleep 3; done'
 alias o='xdg-open $@'
 alias rotate_left='ffmpeg -vf transpose=2 out.mp4 -i'
 alias rotate_right='ffmpeg -vf transpose=1 out.mp4 -i'
@@ -37,21 +36,16 @@ function jrnl {
 # system stuff
 alias ud="sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade"
 alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
 
 # project paths
 alias bm='cd $PROJECT_PATH/web_apps/better'
 alias boo='cd $PROJECT_PATH/web_apps/boon-blog'
 alias bt='cd $PROJECT_PATH/web_apps/boon_top'
 alias template='cd $PROJECT_PATH/open_source/template'
-alias junk='cd $PROJECT_PATH/open_source/junk_drawer'
-alias rub='cd $PROJECT_PATH/open_source/ruby'
 alias im='cd $PROJECT_PATH/open_source/ImageMagick'
 alias im6='cd $PROJECT_PATH/open_source/ImageMagick6'
 alias rma='cd $PROJECT_PATH/open_source/rake-compiler-dev-box/rmagick'
-alias spu='cd $PROJECT_PATH/gems/speculate'
-alias tds='cd $PROJECT_PATH/gems/todo_sync'
+
 function os {
   cd "$PROJECT_PATH/open_source/$1"
 }
@@ -68,10 +62,11 @@ complete -F _completeOs os
 # ruby/rails stuff
 alias stopsyn="syn; pg_ctl stop; cd -"
 alias stopstr="stringer; pg_ctl stop; cd -"
-alias fsd="bundle && yarn && rails assets:clobber && foreman start -f Procfile.dev"
+alias fsd="bundle && pnpm install && rails assets:clobber && foreman start -f Procfile.dev"
 alias bundle_up="bundle && gem cleanup && bundle"
 alias b='bundle'
-alias by='bundle; test -f yarn.lock && yarn --ignore-engines'
+alias by='bundle; test -f yarn.lock && yarn --ignore-engines; test -f pnpm-lock.yaml && pnpm install'
+alias p='pnpm install'
 alias y='yarn'
 alias sc='script/console'
 alias ss='script/server'
@@ -95,7 +90,7 @@ alias nsb='ns; ogg123 -q $notify_sound $notify_sound $notify_sound'
 
 # gitty stuff
 grep_excludes=(':!*.svg' ':!*.pdf')
-alias bas='baes rebase --auto-skip'
+alias bas='baes rebase --auto-skip --ignore staging'
 alias gd='git diff'
 alias gd1='git diff HEAD~1'
 alias gl='git log'
@@ -154,7 +149,7 @@ function gitclean() {
   git br --merged | grep -v "\s\(main\|master\|staging\)" | xargs -r git br -d
 }
 
-alias gcl='gitclean'
+alias gcl='baes clean'
 alias gitage='for branch in $(git branch | grep -v "*"); do echo "$(git log -1 $branch --format=%ai) $branch"; done | sort'
 alias rubodiff='git diff main --name-only --diff-filter=ACM | grep \\.rb$ | xargs rubocop -A --force-exclusion'
 alias esdiff='git diff main --name-only --diff-filter=ACM | grep \\.ts | xargs ./node_modules/eslint/bin/eslint.js --cache --fix'
