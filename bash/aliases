@@ -159,6 +159,7 @@ alias rubogen='rubocop --auto-gen-config --auto-gen-only-exclude --exclude-limit
 alias hamlgen='rubocop --auto-gen-config --auto-gen-only-exclude --exclude-limit 400'
 alias ra='rubocop -A'
 alias touchdiff='git diff main --name-only --diff-filter=ACM | xargs touch'
+alias touch1='git diff --name-only HEAD~1 | xargs touch'
 alias reponame="git remote -v | grep github.*fetch | cut -f 2 -d ':' | cut -f 1 -d '.'"
 function obuild {
   o https://app.circleci.com/pipelines/github/`reponame`?branch=`git branch --show-current`
