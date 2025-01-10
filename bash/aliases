@@ -61,17 +61,13 @@ function _completeOs {
 complete -F _completeOs os
 
 # ruby/rails stuff
-alias stopsyn="syn; pg_ctl stop; cd -"
-alias stopstr="stringer; pg_ctl stop; cd -"
 alias fsd="bundle && pnpm install && rails assets:clobber && foreman start -f Procfile.dev"
-alias bundle_up="bundle && gem cleanup && bundle"
 alias b='bundle'
 alias by='bundle; test -f yarn.lock && yarn --ignore-engines; test -f pnpm-lock.yaml && pnpm install'
 alias p='pnpm install'
 alias y='yarn'
 alias sc='script/console'
 alias ss='script/server'
-alias sdbc='script/dbconsole'
 alias rc="rails console"
 alias rs="rails server"
 alias pg="pg_ctl start"
@@ -142,22 +138,12 @@ function vg() {
   vim $(ggl "$@")
 }
 
-function gitclean() {
-  git checkout main
-  git remote prune $(git remote -v | grep -v heroku | cut -f 1 | uniq)
-  git gc --prune=now
-  echo "***"
-  git br --merged | grep -v "\s\(main\|master\|staging\)" | xargs -r git br -d
-}
-
 alias gcl='baes clean'
-alias gitage='for branch in $(git branch | grep -v "*"); do echo "$(git log -1 $branch --format=%ai) $branch"; done | sort'
 alias rubodiff='git diff main --name-only --diff-filter=ACM | grep \\.rb$ | xargs rubocop -A --force-exclusion'
 alias esdiff='git diff main --name-only --diff-filter=ACM | grep \\.ts | xargs ./node_modules/eslint/bin/eslint.js --cache --fix'
 alias esopen='vim $(yarn eslint 2>&1 | grep "^/")'
 alias rubogen='rubocop --auto-gen-config --auto-gen-only-exclude --exclude-limit 400'
 alias hamlgen='rubocop --auto-gen-config --auto-gen-only-exclude --exclude-limit 400'
-alias ra='rubocop -A'
 alias touchdiff='git diff main --name-only --diff-filter=ACM | xargs touch'
 alias touch1='git diff --name-only HEAD~1 | xargs touch'
 alias reponame="git remote -v | grep github.*fetch | cut -f 2 -d ':' | cut -f 1 -d '.'"
@@ -168,12 +154,6 @@ function obuild {
 # search all files in this folder recursively for some text
 function grepit {
     grep -nr --color=always "$1" ./*
-}
-
-# search rails app in lib and app folders for text
-function grepap {
-    grep -nr "$1" lib/*
-    grep -nr "$1" app/*
 }
 
 function keep_trying() {
@@ -191,8 +171,4 @@ function try_to_fail() {
   while eval $@; do echo "trying again"; done; ns
 }
 
-if [[ `uname` == 'Darwin' ]]; then
-  alias ls='ls -G'
-else
-  alias ls='ls --color'
-fi
+alias ls='ls --color'
