@@ -57,9 +57,9 @@ function _completeOs {
 complete -F _completeOs os
 
 # ruby/rails stuff
-alias fsd="bundle && pnpm install && rails assets:clobber && foreman start -f Procfile.dev"
+alias fsd="by && rails assets:clobber && foreman start -f Procfile.dev"
 alias b='bundle'
-alias by='bundle; test -f yarn.lock && yarn --ignore-engines; test -f pnpm-lock.yaml && pnpm install'
+alias by='bundle; test -f yarn.lock && yarn --ignore-engines; test -f pnpm-lock.yaml && pnpm install; true'
 alias p='pnpm install'
 alias y='yarn'
 alias sc='script/console'
@@ -75,6 +75,7 @@ function cd_gem() {
 }
 
 alias yat='yarn eslint --fix && yarn test --coverage --maxWorkers=4'
+alias pat='pnpm eslint --fix && pnpm test -- --coverage --maxWorkers=4'
 alias yj='yarn jest --maxWorkers=4'
 
 alias ns='notify-send "that thing is done"'
