@@ -71,7 +71,7 @@ function set_prompt {
 
     fillsize=${COLUMNS}
     fill=""
-    while [ "$fillsize" -gt "0" ]
+    while [[ "$fillsize" -gt "0" ]]
     do
       fill="${fill}+"
       let fillsize=${fillsize}-1
