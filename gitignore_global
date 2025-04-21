@@ -10,3 +10,4 @@ db/test.sqlite3-journal
 .env.test.local
 .obsidian
 dump.rdb
+CLAUDE.md
