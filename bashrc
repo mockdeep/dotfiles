@@ -21,5 +21,4 @@ hitch() {
 }
 alias unhitch='hitch -u'
 
-. $HOME/.asdf/asdf.sh
-. $HOME/.asdf/completions/asdf.bash
+eval "$(mise activate bash)"

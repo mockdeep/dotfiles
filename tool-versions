@@ -1,5 +1,4 @@
-ruby 3.2.2
-bundler 2.2.26
+ruby 3.4.1
 nodejs 18.16.0
 yarn 1.22.10
 postgres 15.5
