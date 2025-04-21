@@ -15,9 +15,6 @@ export PATH="/usr/local/bin:$PATH"
 export PATH="/usr/local/android-studio/bin:$PATH"
 export JAVA_HOME="/usr/lib/jvm/java-8-oracle/"
 
-# added by travis gem
-[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
-
 hitch() {
   command hitch "$@"
   if [[ -s "$HOME/.hitch_export_authors" ]] ; then source "$HOME/.hitch_export_authors" ; fi

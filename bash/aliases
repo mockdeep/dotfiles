@@ -2,15 +2,11 @@
 alias ea='vim $DOT_PATH/bash/aliases && rl'
 alias rl="source $DOT_PATH/bashrc"
 
-alias la='ls -a'
 alias hrc='heroku run "rails console" -r heroku'
 alias hrcs='heroku run "rails console" -r staging'
 alias hrcp='heroku run "rails console" -r heroku --size=performance-L'
 alias hrcw='heroku run "rails console -w" -r heroku'
 alias o='xdg-open $@'
-alias rotate_left='ffmpeg -vf transpose=2 out.mp4 -i'
-alias rotate_right='ffmpeg -vf transpose=1 out.mp4 -i'
-alias rotate_twice='ffmpeg -vf transpose=2,transpose=2 out.mp4 -i'
 
 function vimcheck {
   vim $(git diff --check | cut -f 1 -d ':' | uniq)
