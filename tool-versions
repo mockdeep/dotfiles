@@ -1,5 +1,5 @@
 ruby 3.4.1
-nodejs 18.16.0
+nodejs 22.14.0
 yarn 1.22.10
 postgres 15.5
 redis 6.2.3
