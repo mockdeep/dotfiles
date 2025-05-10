@@ -8,6 +8,8 @@ alias hrcp='heroku run "rails console" -r heroku --size=performance-L'
 alias hrcw='heroku run "rails console -w" -r heroku'
 alias o='xdg-open $@'
 
+alias vi=nvim
+alias vim=nvim
 function vimcheck {
   vim $(git diff --check | cut -f 1 -d ':' | uniq)
 }
