@@ -61,7 +61,14 @@ nmap <leader>nb :Neotree buffers<CR>
 nmap <leader>gs :Neotree git_status<CR>
 nmap <leader>nc :Neotree close<CR>
 nmap <leader>rt :retab<CR>:%s/\s\+$//ge<CR>
-nmap <leader>wr :s/[\[{(,]\zs/\r/g<CR>:s/\ze[\]})]/,\r/<CR>magg=G'a
+" split elements on the current line across multiple lines:
+" :s/[\[{(,]\zs/\r/g<CR> => insert newline after any `[`, `{`, `(` or `,`
+" :s/\ze[\]})]/,\r/g<CR> => insert comma and newline before any `]`, `}` or `)`
+" mw => mark the current position with 'w'
+" gg => go to the top of the file
+" =G => indent the whole file
+" 'w => go back to the position marked with 'w'
+nmap <leader>wr :s/[\[{(,]\zs/\r/g<CR>:s/\ze[\]})]/,\r/g<CR>mwgg=G'w
 
 nmap <leader>pi :PlugInstall<CR>
 nmap <leader>c oconsole.log(
