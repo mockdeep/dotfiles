@@ -11,3 +11,4 @@ db/test.sqlite3-journal
 .obsidian
 dump.rdb
 CLAUDE.md
+.claude/
