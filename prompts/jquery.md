@@ -85,6 +85,58 @@ formElement().addEventListener('submit', (event) => {
 });
 ```
 
+### Class Checking (.hasClass() replacement)
+Replace jQuery `.hasClass()` with native `classList` or test matchers:
+```typescript
+// Before
+expect($element.hasClass('locked')).toBe(false);
+
+// After
+expect(element()).not.toHaveClass('locked');
+```
+
+### Element Count and Descendant Checks
+Use `toHaveDescendants` matcher instead of checking `.length`:
+```typescript
+// Before
+expect($('.tooltip--error')).toHaveLength(1);
+expect($('.tooltip--error')).toHaveLength(0);
+
+// After
+expect(document.body).toHaveDescendants('.tooltip--error', 1);
+expect(document.body).not.toHaveDescendants('.tooltip--error');
+```
+
+### DOM Manipulation
+Replace jQuery DOM manipulation with native methods:
+```typescript
+// Before (append)
+$('body').append(element1, element2);
+
+// After (append)
+document.body.appendChild(element1);
+document.body.appendChild(element2);
+
+// Before (remove)
+$('#my-element').remove();
+
+// After (remove)
+document.getElementById('my-element')?.remove();
+```
+
+### Element Creation and Setup
+Replace jQuery element creation with native DOM APIs:
+```typescript
+// Before
+$('head').append("<meta name='csrf-token' content='token123'>");
+
+// After
+const metaTag = document.createElement('meta');
+metaTag.name = 'csrf-token';
+metaTag.content = 'token123';
+document.head.appendChild(metaTag);
+```
+
 ## Helper Functions
 Create helper functions using `findEl`/`findEls` for commonly accessed elements:
 ```typescript
@@ -153,6 +205,25 @@ function myButton(): HTMLElement {
 myButton().click();
 ```
 
+### Cleaning Up Unused jQuery Variables
+Remove jQuery variables when they're no longer needed:
+```typescript
+// Before
+let $element: JQuery;
+let $button: JQuery;
+
+beforeEach(() => {
+  $element = $(element());
+  $button = $element.find('.my-button');
+});
+
+// After
+// Remove unused variables and use helper functions directly
+function myButton(): HTMLElement {
+  return findEl(element(), 'button', '.my-button');
+}
+```
+
 ## Migration Focus Areas
 
 ### Priority Replacements
@@ -160,6 +231,10 @@ myButton().click();
 2. **Value access**: `.val()` calls (both getting and setting)
 3. **Event binding**: `.on()` method calls
 4. **Event triggering**: `.trigger()` calls
+5. **Class checking**: `.hasClass()` calls
+6. **Element counting**: `.length` checks for element counts
+7. **DOM manipulation**: `.append()`, `.remove()` calls
+8. **jQuery object indexing**: `$element[0]` patterns
 
 ### What NOT to Replace (Yet)
 - jQuery selectors and DOM traversal methods
@@ -176,3 +251,8 @@ myButton().click();
 ### Common Patterns Learned
 - Helper functions improve maintainability and readability
 - Batching similar replacements in the same file is more efficient
+- Use `toHaveDescendants` matcher instead of checking `.length` on jQuery objects
+- Leverage existing helper functions rather than creating new ones when possible
+- Clean up unused jQuery variables after replacement
+- Native DOM methods often require more explicit steps but provide better type safety
+- `toHaveDescendants` with zero count uses `.not.toHaveDescendants()` pattern
