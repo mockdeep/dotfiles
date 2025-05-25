@@ -18,7 +18,6 @@ click_on 'Save', matcher: have_text('Saved successfully')
 **Navigation/Page Changes:**
 ```ruby
 click_on 'Edit', matcher: have_button('Save')
-click_on 'Continue', matcher: have_css('.next-page')
 ```
 
 **Form Actions:**
@@ -71,9 +70,34 @@ click_on 'Delete', matcher: have_no_text('Item')
 - `have_no_text('text')` - Text disappears from page  
 - `have_button('Button')` - Button becomes available
 - `have_field('Field')` - Form field appears
-- `have_css('.class')` - Element with CSS class appears
 - `have_no_css('.class')` - Element with CSS class disappears
+- `have_select('select_name')` - Dropdown/select field appears
+- `have_link('Link Text')` - Link becomes available
 - `have_rows('row1', 'row2')` - Table rows appear in order
+
+## Special Cases
+
+### Already-Present Content
+If the expected content is already visible, find what actually changes:
+
+```ruby
+# Bad - "Remove" is already visible
+click_on 'Add Signature', matcher: have_text('Remove')
+
+# Good - wait for form fields to appear
+click_on 'Add Signature', matcher: have_text('Signature 1')
+```
+
+### Validation Errors
+For validation errors that appear inline, wait for dialog elements:
+
+```ruby
+# Bad - error text might already be present
+click_on 'save', matcher: have_text('Formula 3: must contain only numbers')
+
+# Good - wait for validation dialog
+click_on 'save', matcher: have_button('Cancel')
+```
 
 ## Guidelines
 
@@ -82,6 +106,8 @@ click_on 'Delete', matcher: have_no_text('Item')
 3. **Avoid already-present content** - Don't match text that's already on the page before clicking
 4. **Use negative matchers** - For delete actions, verify content disappears
 5. **Extract long matchers** - Keep lines under 84 characters by using local variables
+6. **No matchers with alerts** - Don't use matchers when handling JavaScript alerts
+7. **Wait for UI elements** - Match buttons, forms, or CSS classes that appear after the action
 
 ## Process
 
@@ -90,3 +116,15 @@ click_on 'Delete', matcher: have_no_text('Item')
 3. Extract long matchers to local variables
 4. Run tests to ensure matchers work correctly
 5. Adjust matchers if tests fail due to incorrect expectations
+
+## Debugging Failed Matchers
+
+When tests fail due to incorrect matchers:
+
+1. **Check if content already exists** - Look at the error message to see if the expected text/element is already present
+2. **Find what actually changes** - Identify what appears, disappears, or becomes enabled after the click
+4. **Wait for dialogs/modals** - Use `have_button('OK')` or `have_button('Cancel')` for confirmation dialogs
+5. **Check the HTML output** - Review the HTML screenshot paths in test failures to understand page structure
+
+### Common Fixes
+- Change `have_text('existing text')` → `have_button('New Button')`
