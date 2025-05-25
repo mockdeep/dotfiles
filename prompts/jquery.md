@@ -1,7 +1,7 @@
-# jQuery Event Replacement Guide
+# jQuery Replacement Guide
 
 ## Overview
-Replace jQuery event shorthands (`.click()`, `.focus()`, etc.) and `.trigger()` calls with native DOM events or helper functions.
+Replace jQuery methods with native DOM APIs and helper functions. This includes event shorthands (`.click()`, `.focus()`, etc.), `.trigger()` calls, `.val()` property access, and event binding methods like `.on()`.
 
 ## Patterns
 
@@ -51,8 +51,39 @@ triggerEvent(element(), 'keyup', { key: 'Enter' });
 ```
 
 ### Event Type Mappings
-- `mouseenter` � `mouseover` (jQuery translates these automatically)
-- `mouseleave` � `mouseout`
+- `mouseenter` → `mouseover` (jQuery translates these automatically)
+- `mouseleave` → `mouseout`
+
+### Value Access (.val() replacement)
+Replace jQuery `.val()` calls with native `.value` property:
+```typescript
+// Before (getting value)
+const value = $input.val();
+
+// Before (setting value)
+$input.val('new value');
+
+// After (getting value)
+const value = inputElement().value;
+
+// After (setting value)
+inputElement().value = 'new value';
+```
+
+### Event Binding (.on() replacement)
+Replace jQuery `.on()` with native `addEventListener`:
+```typescript
+// Before
+$form.on('submit', (event) => {
+  return false;
+});
+
+// After
+formElement().addEventListener('submit', (event) => {
+  event.preventDefault();
+  return false;
+});
+```
 
 ## Helper Functions
 Create helper functions using `findEl`/`findEls` for commonly accessed elements:
@@ -76,6 +107,26 @@ nextButton().click();
 - Avoid using `$element.click()`, `$element.focus()`, etc.
 - Instead, create helper functions that return HTMLElement
 - Use native DOM methods on the returned elements
+
+### Replace jQuery Value Access
+- Avoid using `$element.val()` for getting/setting values
+- Use `.value` property on HTMLInputElement/HTMLTextAreaElement
+- Create typed helper functions that return the correct element type
+
+Example helper functions for form elements:
+```typescript
+function nameField(): HTMLInputElement {
+  return findEl(element(), 'input', '.name');
+}
+
+function csvField(): HTMLTextAreaElement {
+return findEl(element(), 'input', '.csv-field');
+}
+
+// Usage
+nameField().value = 'John Doe';
+expect(csvField().value).toMatch(/expected content/);
+```
 
 ### Multiple Elements
 For collections of elements that need individual access:
@@ -102,10 +153,26 @@ function myButton(): HTMLElement {
 myButton().click();
 ```
 
-## Focus
-- Replace `.trigger()` calls and event shorthands (`.click()`, `.focus()`, etc.)
-- Don't replace other jQuery usage (selectors, visibility checks, etc.)
-- When chained with other jQuery calls, it's acceptable to update the chain
-- Create helper functions rather than indexing into jQuery objects
+## Migration Focus Areas
+
+### Priority Replacements
+1. **Event shorthands**: `.click()`, `.focus()`, `.blur()`, `.change()`, etc.
+2. **Value access**: `.val()` calls (both getting and setting)
+3. **Event binding**: `.on()` method calls
+4. **Event triggering**: `.trigger()` calls
+
+### What NOT to Replace (Yet)
+- jQuery selectors and DOM traversal methods
+- Visibility checks (`.toBeVisible()`, etc.)
+- Other jQuery utilities that don't have direct native equivalents
+- Complex jQuery chains unless they contain the priority methods above
+
+### Implementation Guidelines
+- Create helper functions rather than indexing into jQuery objects (`$element[0]`)
 - Use existing helpers (`triggerEvent`, `mouseEvent`) when available
 - Add new event types to `EventType` in `src/helpers/event.ts` if needed
+- Always verify tests pass after replacements
+
+### Common Patterns Learned
+- Helper functions improve maintainability and readability
+- Batching similar replacements in the same file is more efficient
