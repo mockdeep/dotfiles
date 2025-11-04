@@ -76,7 +76,7 @@ function cd_gem() {
 }
 
 alias yat='yarn eslint --fix && yarn test --coverage --maxWorkers=4'
-alias pat='pnpm eslint --fix && pnpm test -- --coverage --maxWorkers=4'
+alias pat='pnpm eslint --fix && pnpm test --coverage --maxWorkers=4'
 alias yj='yarn jest --maxWorkers=4'
 
 alias ns='notify-send "that thing is done"'

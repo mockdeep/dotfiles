@@ -12,3 +12,6 @@ db/test.sqlite3-journal
 dump.rdb
 CLAUDE.md
 .claude/
+pnpm-workspace.yaml
+baseliner.yml
+support_data.yml
