@@ -14,3 +14,4 @@ pnpm-workspace.yaml
 baseliner.yml
 support_data.yml
 .claude/settings.local.json
+.terminal-theme
