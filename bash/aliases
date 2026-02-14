@@ -4,7 +4,7 @@ alias rl="source $DOT_PATH/bashrc"
 
 alias hrc='heroku run "rails console" -r heroku'
 alias hrcs='heroku run "rails console" -r staging'
-alias hrcp='heroku run "rails console" -r heroku --size=performance-L'
+alias hrcp='heroku run "rails console -w" -r heroku --size=performance-L'
 alias hrcw='heroku run "rails console -w" -r heroku'
 alias o='xdg-open $@'
 
@@ -21,6 +21,7 @@ function vimbranch {
 # productivity stuff
 alias youtube-dl-playlist='youtube-dl --download-archive archive.txt -o "%(playlist_index)03d %(title)s.%(ext)s" $@'
 alias dl_series='yt-dlp -o "%(autonumber)03d %(title)s.%(ext)s" --playlist-reverse'
+alias dlmp3='yt-dlp --preset-alias mp3 $@'
 
 function jrnl {
   today=`date +%Y-%m-%d`
@@ -59,8 +60,8 @@ complete -F _completeOs os
 
 # ruby/rails stuff
 alias fsd="by && rails assets:clobber && foreman start -f Procfile.dev"
-alias b='bundle'
-alias by='bundle; test -f yarn.lock && yarn --ignore-engines; test -f pnpm-lock.yaml && pnpm install; true'
+alias b='bundle install'
+alias by='bundle install; test -f yarn.lock && yarn; test -f pnpm-lock.yaml && pnpm install; true'
 alias p='pnpm install'
 alias y='yarn'
 alias sc='script/console'
@@ -92,6 +93,7 @@ alias gl='git log'
 alias glp='git log -p'
 alias gds='git diff --staged'
 alias gdm='git diff main'
+alias gdmno='git diff main --name-only'
 alias gdw='git diff -w'
 alias gp='git pull'
 alias gpu='git pull upstream main'
@@ -141,7 +143,7 @@ alias rubodiff='git diff main --name-only --diff-filter=ACM | grep \\.rb$ | xarg
 alias esdiff='git diff main --name-only --diff-filter=ACM | grep \\.ts | xargs ./node_modules/eslint/bin/eslint.js --cache --fix'
 alias esopen='vim $(yarn eslint 2>&1 | grep "^/")'
 alias rubogen='rubocop --auto-gen-config --auto-gen-only-exclude --exclude-limit 400'
-alias hamlgen='rubocop --auto-gen-config --auto-gen-only-exclude --exclude-limit 400'
+alias hamlgen='haml-lint --auto-gen-config --auto-gen-exclude-limit 400'
 alias touchdiff='git diff main --name-only --diff-filter=ACM | xargs touch'
 alias touch1='git diff --name-only HEAD~1 | xargs touch'
 alias reponame="git remote -v | grep github.*fetch | cut -f 2 -d ':' | cut -f 1 -d '.'"

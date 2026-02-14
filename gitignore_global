@@ -10,8 +10,7 @@ db/test.sqlite3-journal
 .env.test.local
 .obsidian
 dump.rdb
-CLAUDE.md
-.claude/
 pnpm-workspace.yaml
 baseliner.yml
 support_data.yml
+.claude/settings.local.json
