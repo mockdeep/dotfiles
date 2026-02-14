@@ -88,70 +88,61 @@ function set_prompt {
     set_titlebar "$USER@${HOSTNAME%%.*} $PWD"
 }
 
-function set_terminal_colors {
-    local project_name=""
+function set_terminal_theme {
+    # Walk up from $PWD looking for .terminal-theme
+    local dir="$PWD"
+    local theme_file=""
+    while true; do
+        if [[ -f "$dir/.terminal-theme" ]]; then
+            theme_file="$dir/.terminal-theme"
+            break
+        fi
+        if [[ $dir == "/" ]]; then break; fi
+        dir="$(dirname "$dir")"
+    done
 
-    # Use git root as the project identifier if available
-    local git_root
-    git_root=$(git rev-parse --show-toplevel 2>/dev/null)
-    if [[ -n $git_root ]]; then
-        project_name="$git_root"
-    fi
+    # Skip if the theme file hasn't changed
+    if [[ $theme_file == "$_TERM_THEME_FILE" ]]; then return; fi
+    _TERM_THEME_FILE="$theme_file"
 
-    # Skip if project hasn't changed
-    if [[ $project_name == "$_TERM_COLOR_PROJECT" ]]; then return; fi
-    _TERM_COLOR_PROJECT="$project_name"
-
-    if [[ -z $project_name ]]; then
-        # Reset to terminal default
+    if [[ -z $theme_file ]]; then
+        # Reset to terminal defaults
+        printf '\e]110\a'
         printf '\e]111\a'
+        printf '\e]112\a'
+        printf '\e]104\a'
         return
     fi
 
-    # Check for per-project override in .git/info/terminal-color (hex format, e.g. #1a2b3c)
-    local override="$git_root/.git/info/terminal-color"
-    if [[ -f $override ]]; then
-        local color
-        color=$(<"$override")
-        color="${color#"${color%%[![:space:]]*}"}"
-        color="${color%"${color##*[![:space:]]}"}"
-        printf '\e]11;%s\a' "$color"
+    local theme_name
+    theme_name=$(<"$theme_file")
+    theme_name="${theme_name#"${theme_name%%[![:space:]]*}"}"
+    theme_name="${theme_name%"${theme_name##*[![:space:]]}"}"
+
+    local theme_path="$DOT_PATH/bash/terminal-themes/$theme_name"
+    if [[ ! -f $theme_path ]]; then
+        printf '\e]110\a'
+        printf '\e]111\a'
+        printf '\e]112\a'
+        printf '\e]104\a'
         return
     fi
 
-    # Hash project name to get a deterministic number
-    local hash
-    hash=$(printf '%s' "$project_name" | cksum | cut -d' ' -f1)
-
-    # Map hash to hue (0-359), keep saturation high, brightness low for readability
-    local hue=$((hash % 360))
-
-    # Convert HSB to RGB using integer math
-    # high=46 (~18% brightness), low=5 (~2%) gives a wide spread for visible color distinction
-    local r g b
-    local sector=$((hue / 60))
-    local remainder=$(( (hue % 60) * 255 / 60 ))
-
-    local low=5
-    local high=46
-    local mid=$(( low + (high - low) * remainder / 255 ))
-
-    case $sector in
-        0) r=$high; g=$mid;  b=$low  ;;
-        1) r=$(( high - (high - low) * remainder / 255 )); g=$high; b=$low ;;
-        2) r=$low;  g=$high; b=$mid  ;;
-        3) r=$low;  g=$(( high - (high - low) * remainder / 255 )); b=$high ;;
-        4) r=$mid;  g=$low;  b=$high ;;
-        5) r=$high; g=$low;  b=$(( high - (high - low) * remainder / 255 )) ;;
-    esac
-
-    printf '\e]11;#%02x%02x%02x\a' "$r" "$g" "$b"
+    while IFS='=' read -r key value; do
+        [[ -z $key || $key == \#* ]] && continue
+        case $key in
+            fg)     printf '\e]10;%s\a' "$value" ;;
+            bg)     printf '\e]11;%s\a' "$value" ;;
+            cursor) printf '\e]12;%s\a' "$value" ;;
+            color*) printf '\e]4;%s;%s\a' "${key#color}" "$value" ;;
+        esac
+    done < "$theme_path"
 }
 
 function enter_directory {
     if [[ $PWD == $PREV_PWD ]]; then return; fi
     PREV_PWD=$PWD
-    set_terminal_colors
+    set_terminal_theme
 }
 
 function prompt_command {
