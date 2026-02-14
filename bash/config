@@ -2,14 +2,30 @@
 # http://briancarper.net/blog/570/git-info-in-your-zsh-prompt
 # http://github.com/adamv/dotfiles/blob/master/bashrc
 # http://wiki.archlinux.org/index.php/Color_Bash_Prompt
-txtred='\[\e[0;31m\]' # Red
-txtgrn='\[\e[0;32m\]' # Green
-txtwht='\[\e[0;37m\]' # White
-bldred='\[\e[1;31m\]' # Red
-bldgrn='\[\e[1;32m\]' # Green
-bldylw='\[\e[1;33m\]' # Yellow
-bldwht='\[\e[1;37m\]' # White
 end='\[\e[0m\]'    # Text Reset
+
+function _hex_to_rgb {
+    local hex="${1#\#}"
+    printf "%d;%d;%d" "0x${hex:0:2}" "0x${hex:2:2}" "0x${hex:4:2}"
+}
+
+function _tc {
+    printf '\[\e[38;2;%sm\]' "$(_hex_to_rgb "$1")"
+}
+
+function _tc_bold {
+    printf '\[\e[1;38;2;%sm\]' "$(_hex_to_rgb "$1")"
+}
+
+# Default prompt colors (used when no theme is active)
+_prompt_fill='#cc241d'
+_prompt_dir='#98971a'
+_prompt_git='#b8bb26'
+_prompt_branch='#a89984'
+_prompt_symbol='#fbf1c7'
+_prompt_dirty='#fb4934'
+_prompt_staged='#fabd2f'
+_prompt_remote='#cc241d'
 
 function parse_git {
     branch=$(__git_ps1 "%s")
@@ -21,6 +37,12 @@ function parse_git {
     local behind="⟱"
     local dot="•"
 
+    local c_dirty=$(_tc_bold "$_prompt_dirty")
+    local c_staged=$(_tc_bold "$_prompt_staged")
+    local c_git=$(_tc_bold "$_prompt_git")
+    local c_branch=$(_tc "$_prompt_branch")
+    local c_remote=$(_tc "$_prompt_remote")
+
     remote_pattern_ahead="# Your branch is ahead of"
     remote_pattern_behind="# Your branch is behind"
     remote_pattern_diverge="# Your branch and (.*) have diverged"
@@ -29,31 +51,31 @@ function parse_git {
 
     state=""
     if [[ $status =~ "working directory clean" ]]; then
-        state=${bldred}${dot}${end}
+        state=${c_dirty}${dot}${end}
     else
         if [[ $status =~ "Untracked files" ]]; then
-            state=${bldred}${dot}${end}
+            state=${c_dirty}${dot}${end}
         fi
         if [[ $status =~ "Changed but not updated" ]]; then
-            state=${state}${bldylw}${dot}${end}
+            state=${state}${c_staged}${dot}${end}
         fi
         if [[ $status =~ "Changes to be committed" ]]; then
-            state=${state}${bldylw}${dot}${end}
+            state=${state}${c_staged}${dot}${end}
         fi
     fi
 
     direction=""
     if [[ $status =~ $remote_pattern_ahead ]]; then
-        direction=${txtred}${forward}${end}
+        direction=${c_remote}${forward}${end}
     elif [[ $status =~ $remote_pattern_behind ]]; then
-        direction=${txtred}${behind}${end}
+        direction=${c_remote}${behind}${end}
     elif [[ $status =~ $remote_pattern_diverge ]]; then
-        direction=${txtred}${forward}${end}${bldgrn}${behind}${end}
+        direction=${c_remote}${forward}${end}${c_git}${behind}${end}
     fi
 
-    branch=${txtwht}${branch}${end}
-    git_bit="${state}${bldgrn}(${end}${branch}\
-${git_bit}${direction}${bldgrn})${end}"
+    branch=${c_branch}${branch}${end}
+    git_bit="${state}${c_git}(${end}${branch}\
+${git_bit}${direction}${c_git})${end}"
 
     printf "%s" "$git_bit"
 }
@@ -69,6 +91,10 @@ function set_titlebar {
 function set_prompt {
     git="$(parse_git)"
 
+    local c_fill=$(_tc "$_prompt_fill")
+    local c_dir=$(_tc "$_prompt_dir")
+    local c_sym=$(_tc_bold "$_prompt_symbol")
+
     fillsize=${COLUMNS}
     fill=""
     while [[ "$fillsize" -gt "0" ]]
@@ -77,11 +103,11 @@ function set_prompt {
       let fillsize=${fillsize}-1
     done
 
-    PS1="${txtred}${fill}${end}\n${txtgrn}\W${end}"
+    PS1="${c_fill}${fill}${end}\n${c_dir}\W${end}"
     if [[ -n "$git" ]]; then
-        PS1="$PS1 $git ${bldwht}\$${end} "
+        PS1="$PS1 $git ${c_sym}\$${end} "
     else
-        PS1="$PS1 ${bldwht}\$${end} "
+        PS1="$PS1 ${c_sym}\$${end} "
     fi
     export PS1
 
@@ -111,6 +137,14 @@ function set_terminal_theme {
         printf '\e]111\a'
         printf '\e]112\a'
         printf '\e]104\a'
+        _prompt_fill='#cc241d'
+        _prompt_dir='#98971a'
+        _prompt_git='#b8bb26'
+        _prompt_branch='#a89984'
+        _prompt_symbol='#fbf1c7'
+        _prompt_dirty='#fb4934'
+        _prompt_staged='#fabd2f'
+        _prompt_remote='#cc241d'
         return
     fi
 
@@ -135,6 +169,7 @@ function set_terminal_theme {
             bg)     printf '\e]11;%s\a' "$value" ;;
             cursor) printf '\e]12;%s\a' "$value" ;;
             color*) printf '\e]4;%s;%s\a' "${key#color}" "$value" ;;
+            prompt_*) printf -v "_$key" '%s' "$value" ;;
         esac
     done < "$theme_path"
 }
