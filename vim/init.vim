@@ -29,9 +29,6 @@ nmap <M-Down> :resize +5<CR>
 nmap <M-Up> :resize -5<CR>
 
 nmap + /\w\+_\w*<CR>
-" nmap <C-t> :GFiles<CR>
-" nmap <C-p> :Files<CR>
-" https://github.com/nvim-telescope/telescope.nvim/wiki/Configuration-Recipes
 
 " disable Github copilot for txt files
 autocmd BufRead,BufNewFile *.txt Copilot disable

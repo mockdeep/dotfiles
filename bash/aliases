@@ -19,16 +19,16 @@ function vimbranch {
 }
 
 # productivity stuff
-alias youtube-dl-playlist='youtube-dl --download-archive archive.txt -o "%(playlist_index)03d %(title)s.%(ext)s" $@'
+alias youtube-dl-playlist='yt-dlp --download-archive archive.txt -o "%(playlist_index)03d %(title)s.%(ext)s" $@'
 alias dl_series='yt-dlp -o "%(autonumber)03d %(title)s.%(ext)s" --playlist-reverse'
 alias dlmp3='yt-dlp --preset-alias mp3 $@'
 
 function jrnl {
-  today=`date +%Y-%m-%d`
-  filepath="$DOC_PATH/journal"
-  i=0
+  local today=$(date +%Y-%m-%d)
+  local filepath="$DOC_PATH/journal"
+  local i=0
   while [ -e "${filepath}/${today}.${i}.txt" ]; do
-    let i=i+1
+    (( i++ ))
   done
   vim "${filepath}/${today}.${i}.txt"
 }
@@ -52,7 +52,7 @@ function os {
 function _completeOs {
   local cur=${COMP_WORDS[COMP_CWORD]}
   local os_dir="$PROJECT_PATH/open_source"
-  local os_list=`ls --color=never $os_dir`
+  local os_list=$(ls --color=never "$os_dir")
   COMPREPLY=( $(compgen -W "$os_list" -- $cur) )
 }
 
@@ -71,7 +71,7 @@ alias pgs="pg_ctl stop"
 alias pgr="pg_ctl start && redis-server; pg_ctl stop"
 
 function cd_gem() {
-  cd `bundle show $@`
+  cd $(bundle show "$@")
 }
 
 alias yat='yarn eslint --fix && yarn test --coverage --maxWorkers=4'
@@ -146,7 +146,7 @@ alias touchdiff='git diff main --name-only --diff-filter=ACM | xargs touch'
 alias touch1='git diff --name-only HEAD~1 | xargs touch'
 alias reponame="git remote -v | grep github.*fetch | cut -f 2 -d ':' | cut -f 1 -d '.'"
 function obuild {
-  o https://app.circleci.com/pipelines/github/`reponame`?branch=`git branch --show-current`
+  o "https://app.circleci.com/pipelines/github/$(reponame)?branch=$(git branch --show-current)"
 }
 
 # search all files in this folder recursively for some text

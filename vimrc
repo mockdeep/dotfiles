@@ -1,4 +1,4 @@
-set tabstop=2           " Tab characters = 4 spaces when displayed
+set tabstop=2           " Tab characters = 2 spaces when displayed
 set shiftwidth=2        " Use 2 spaces for each insertion of (auto)indent
 set softtabstop=2       " Tabs 'count for' 2 spaces when editing (fake tabs)
 set expandtab           " <tab> -> spaces in insert mode
@@ -32,11 +32,6 @@ filetype plugin indent on
 set list listchars=tab:»·,trail:·
 au BufNewFile,BufRead Guardfile,Vagrantfile set filetype=ruby
 au BufNewFile,BufRead *.tsx set filetype=typescript
-
-" tab settings for Makefiles
-" autocmd BufEnter ?akefile* set noet ts=8 sts=8 sw=8
-let g:javascript_plugin_flow = 1
-let g:jsx_ext_required = 0
 
 set ruler
 set autoindent    " always set autoindenting on
