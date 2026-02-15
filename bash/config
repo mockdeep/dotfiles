@@ -43,20 +43,20 @@ function parse_git {
     local c_branch=$(_tc "$_prompt_branch")
     local c_remote=$(_tc "$_prompt_remote")
 
-    remote_pattern_ahead="# Your branch is ahead of"
-    remote_pattern_behind="# Your branch is behind"
-    remote_pattern_diverge="# Your branch and (.*) have diverged"
+    remote_pattern_ahead="Your branch is ahead of"
+    remote_pattern_behind="Your branch is behind"
+    remote_pattern_diverge="Your branch and (.*) have diverged"
 
     status="$(git status 2>/dev/null)"
 
     state=""
-    if [[ $status =~ "working directory clean" ]]; then
+    if [[ $status =~ "working tree clean" ]]; then
         state=${c_dirty}${dot}${end}
     else
         if [[ $status =~ "Untracked files" ]]; then
             state=${c_dirty}${dot}${end}
         fi
-        if [[ $status =~ "Changed but not updated" ]]; then
+        if [[ $status =~ "Changes not staged for commit" ]]; then
             state=${state}${c_staged}${dot}${end}
         fi
         if [[ $status =~ "Changes to be committed" ]]; then
@@ -186,5 +186,3 @@ function prompt_command {
 }
 
 export PROMPT_COMMAND=prompt_command
-export HISTCONTROL=ignoredups
-export HISTSIZE=10000

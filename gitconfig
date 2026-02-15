@@ -1,6 +1,6 @@
 [core]
 	editor = nvim
-	excludesfile = /home/fletch/.gitignore_global
+	excludesfile = ~/.gitignore_global
 [user]
 	name = Robert Fletcher
 	email = lobatifricha@gmail.com
@@ -13,8 +13,7 @@
 	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
 	type = cat-file -t
 	dump = cat-file -p
-  dif = diff --word-diff=color --word-diff-regex=.
-	prn = pull-request
+	dif = diff --word-diff=color --word-diff-regex=.
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	pushf = push --force-with-lease
 [color]
@@ -46,5 +45,3 @@
 	autostash = true
 [rerere]
 	enabled = true
-[maintenance]
-	repo = /home/fletch/Dropbox/projects/chalk/synchroform

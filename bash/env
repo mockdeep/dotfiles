@@ -1,8 +1,4 @@
-export SPRING_LOG=/tmp/spring.log
 export HISTCONTROL=ignoredups
 export HISTFILESIZE=10000
-export JAVA_HOME=/usr/
 export COLOR=true
-export EDITOR=vim
-# export PAGER=less
-# export LESS="-iMSx4 -FX"
+export EDITOR=nvim
