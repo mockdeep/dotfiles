@@ -6,7 +6,7 @@ alias hrc='heroku run "rails console" -r heroku'
 alias hrcs='heroku run "rails console" -r staging'
 alias hrcp='heroku run "rails console -w" -r heroku --size=performance-L'
 alias hrcw='heroku run "rails console -w" -r heroku'
-alias o='xdg-open $@'
+alias o='xdg-open'
 
 alias vi=nvim
 alias vim=nvim
@@ -19,9 +19,9 @@ function vimbranch {
 }
 
 # productivity stuff
-alias youtube-dl-playlist='yt-dlp --download-archive archive.txt -o "%(playlist_index)03d %(title)s.%(ext)s" $@'
+alias youtube-dl-playlist='yt-dlp --download-archive archive.txt -o "%(playlist_index)03d %(title)s.%(ext)s"'
 alias dl_series='yt-dlp -o "%(autonumber)03d %(title)s.%(ext)s" --playlist-reverse'
-alias dlmp3='yt-dlp --preset-alias mp3 $@'
+alias dlmp3='yt-dlp --preset-alias mp3'
 
 function jrnl {
   local today=$(date +%Y-%m-%d)
@@ -151,11 +151,11 @@ function obuild {
 
 # search all files in this folder recursively for some text
 function grepit {
-    grep -nr --color=always "$1" ./*
+    grep -rn --color=always "$1" .
 }
 
 function keep_trying() {
-  until eval $@; do echo "trying again"; done; ns
+  until "$@"; do echo "trying again"; done; ns
 }
 
 function dedupe() {
@@ -166,7 +166,7 @@ function dedupe() {
 }
 
 function try_to_fail() {
-  while eval $@; do echo "trying again"; done; ns
+  while "$@"; do echo "trying again"; done; ns
 }
 
 alias ls='ls --color'
