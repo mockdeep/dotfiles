@@ -111,7 +111,8 @@ function set_prompt {
     fi
     export PS1
 
-    set_titlebar "$USER@${HOSTNAME%%.*} $PWD"
+    local repo
+    repo=$(git rev-parse --show-toplevel 2>/dev/null) && set_titlebar "${repo##*/}" || set_titlebar "${PWD##*/}"
 }
 
 function set_terminal_theme {

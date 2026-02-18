@@ -80,4 +80,5 @@ lua << EOF
 require('Comment').setup()
 EOF
 
+colorscheme vim
 source ~/.vimrc
