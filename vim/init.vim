@@ -80,5 +80,12 @@ lua << EOF
 require('Comment').setup()
 EOF
 
-colorscheme vim
 source ~/.vimrc
+
+" Use terminal palette colors everywhere
+set notermguicolors
+highlight LineNr ctermfg=8
+highlight CursorLineNr ctermfg=7
+highlight EndOfBuffer ctermfg=8
+highlight ColorColumn ctermbg=0
+highlight SignColumn ctermbg=NONE
