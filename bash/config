@@ -17,15 +17,17 @@ function _tc_bold {
     printf '\[\e[1;38;2;%sm\]' "$(_hex_to_rgb "$1")"
 }
 
-# Default prompt colors (used when no theme is active)
-_prompt_fill='#cc241d'
-_prompt_dir='#98971a'
-_prompt_git='#b8bb26'
-_prompt_branch='#a89984'
-_prompt_symbol='#fbf1c7'
-_prompt_dirty='#fb4934'
-_prompt_staged='#fabd2f'
-_prompt_remote='#cc241d'
+function _set_default_prompt_colors {
+    _prompt_fill='#cc241d'
+    _prompt_dir='#98971a'
+    _prompt_git='#b8bb26'
+    _prompt_branch='#a89984'
+    _prompt_symbol='#fbf1c7'
+    _prompt_dirty='#fb4934'
+    _prompt_staged='#fabd2f'
+    _prompt_remote='#cc241d'
+}
+_set_default_prompt_colors
 
 function parse_git {
     branch=$(__git_ps1 "%s")
@@ -138,14 +140,7 @@ function set_terminal_theme {
         printf '\e]111\a'
         printf '\e]112\a'
         printf '\e]104\a'
-        _prompt_fill='#cc241d'
-        _prompt_dir='#98971a'
-        _prompt_git='#b8bb26'
-        _prompt_branch='#a89984'
-        _prompt_symbol='#fbf1c7'
-        _prompt_dirty='#fb4934'
-        _prompt_staged='#fabd2f'
-        _prompt_remote='#cc241d'
+        _set_default_prompt_colors
         return
     fi
 
