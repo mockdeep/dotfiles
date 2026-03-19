@@ -22,6 +22,7 @@ function vimbranch {
 alias youtube-dl-playlist='yt-dlp --download-archive archive.txt -o "%(playlist_index)03d %(title)s.%(ext)s"'
 alias dl_series='yt-dlp -o "%(autonumber)03d %(title)s.%(ext)s" --playlist-reverse'
 alias dlmp3='yt-dlp --preset-alias mp3'
+alias dl_album='yt-dlp -x --audio-format mp3 --embed-metadata --embed-thumbnail'
 
 function jrnl {
   local today=$(date +%Y-%m-%d)
@@ -106,6 +107,7 @@ alias grs='git rebase --skip'
 alias gst='git status -s'
 alias vh='vim $(git show --pretty="format:" --name-only)'
 alias vo='vim $(git diff --staged --name-only)'
+alias cov='COVERAGE=true bundle exec rspec --exclude-pattern "**/system/*_spec.rb"'
 
 function gg() {
   git grep -n "$@" -- './*' ${grep_excludes[@]}

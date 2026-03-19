@@ -8,3 +8,4 @@ rubygems-bundler
 solargraph
 httparty
 activesupport
+ruby-lsp
