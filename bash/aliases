@@ -172,3 +172,5 @@ function try_to_fail() {
 }
 
 alias ls='ls --color'
+alias mux="tmuxinator"
+alias ms="tmuxinator start"

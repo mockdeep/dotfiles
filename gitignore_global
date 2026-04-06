@@ -10,7 +10,6 @@ db/test.sqlite3-journal
 .env.test.local
 .obsidian
 dump.rdb
-pnpm-workspace.yaml
 baseliner.yml
 support_data.yml
 *.local.json
