@@ -1,7 +1,7 @@
-FILE_ROOT=$HOME/Dropbox
+export DOT_PATH="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 
-source "$FILE_ROOT/dotfiles/bash/private"
-source "$FILE_ROOT/dotfiles/bash/completions/tmuxinator"
+source "$DOT_PATH/bash/private"
+source "$DOT_PATH/bash/completions/tmuxinator"
 source "$DOT_PATH/bash/aliases"
 source "$DOT_PATH/bash/env"
 source "$DOT_PATH/bash/config"
