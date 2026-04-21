@@ -95,6 +95,7 @@ alias gdm='git diff main'
 alias gdmno='git diff main --name-only'
 alias gdw='git diff -w'
 alias gp='git pull'
+alias gpt='git pull && git fetch template'
 alias gpu='git pull upstream main'
 alias gad='git add .'
 alias gca='git -c core.editor=true commit --amend'
@@ -138,7 +139,7 @@ function vg() {
   vim $(ggl "$@")
 }
 
-alias gcl='baes clean'
+alias gcl='baes clean && pnpm store prune'
 alias rubodiff='git diff main --name-only --diff-filter=ACM | grep \\.rb$ | xargs rubocop -A --force-exclusion'
 alias esdiff='git diff main --name-only --diff-filter=ACM | grep \\.ts | xargs ./node_modules/eslint/bin/eslint.js --cache --fix'
 alias esopen='vim $(yarn eslint 2>&1 | grep "^/")'

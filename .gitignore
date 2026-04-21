@@ -10,3 +10,4 @@ jslintrc
 banshee-1/*
 *.xml
 sounds/*
+tmuxinator/*
