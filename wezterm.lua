@@ -272,6 +272,11 @@ config.keys = {
 
 -- ─── Appearance ──────────────────────────────────────────────────────
 
+config.font = wezterm.font_with_fallback {
+  'JetBrains Mono',
+  'Hack Nerd Font Mono',
+}
+
 config.inactive_pane_hsb = {
   saturation = 0.8,
   brightness = 0.5,
