@@ -153,6 +153,45 @@ local function workspace_exists(name)
   return false
 end
 
+local mru_path = wezterm.home_dir .. '/.local/state/wezterm/mru.json'
+
+-- Load persisted MRU, pruning entries whose projects no longer exist.
+local function mru_load()
+  local list = {}
+  local f = io.open(mru_path, 'r')
+  if not f then return list end
+  local body = f:read('*a')
+  f:close()
+  local ok, decoded = pcall(wezterm.json_parse, body)
+  if ok and type(decoded) == 'table' then
+    for _, name in ipairs(decoded) do
+      if projects[name] then table.insert(list, name) end
+    end
+  end
+  return list
+end
+
+local mru = mru_load()
+
+local function mru_save()
+  local f = io.open(mru_path, 'w')
+  if not f then
+    wezterm.run_child_process { 'mkdir', '-p', mru_path:match('(.+)/[^/]+$') }
+    f = io.open(mru_path, 'w')
+    if not f then return end
+  end
+  f:write(wezterm.json_encode(mru))
+  f:close()
+end
+
+local function mru_touch(name)
+  for i, n in ipairs(mru) do
+    if n == name then table.remove(mru, i); break end
+  end
+  table.insert(mru, 1, name)
+  mru_save()
+end
+
 local function switch_or_launch(window, name)
   local was_new = false
   if not workspace_exists(name) then
@@ -164,6 +203,7 @@ local function switch_or_launch(window, name)
     materialize_project(name, project)
     was_new = true
   end
+  mru_touch(name)
   window:perform_action(act.SwitchToWorkspace { name = name }, window:active_pane())
   -- SwitchToWorkspace preserves the caller GUI window's active-tab *index*,
   -- ignoring the new workspace's mux state. Reset to tab 0 for fresh launches.
@@ -236,20 +276,29 @@ end)
 
 wezterm.on('launch-project', function(window, pane)
   local current = window:active_workspace()
-  local seen = {}
-  local choices = {}
+  local active = {}
+  for _, ws in ipairs(mux.get_workspace_names()) do active[ws] = true end
 
+  -- Active workspaces: MRU first, then any mux has that MRU doesn't.
+  local ordered = {}
+  local seen = {}
+  for _, ws in ipairs(mru) do
+    if active[ws] then table.insert(ordered, ws); seen[ws] = true end
+  end
   for _, ws in ipairs(mux.get_workspace_names()) do
+    if not seen[ws] then table.insert(ordered, ws); seen[ws] = true end
+  end
+
+  local choices = {}
+  for _, ws in ipairs(ordered) do
     local marker = (ws == current) and '● ' or '○ '
     table.insert(choices, { label = marker .. ws, id = ws })
-    seen[ws] = true
   end
   for name, _ in pairs(projects) do
     if not seen[name] then
       table.insert(choices, { label = '  ' .. name .. '  (launch)', id = name })
     end
   end
-  table.sort(choices, function(a, b) return a.label < b.label end)
 
   window:perform_action(
     act.InputSelector {
