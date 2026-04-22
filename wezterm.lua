@@ -78,7 +78,7 @@ local function rails_project(cwd, opts)
 end
 
 -- ─── Project discovery ───────────────────────────────────────────────
--- Each project opts in by dropping a `.wezterm.lua` at its root that
+-- Each project opts in by dropping a `.wezterm-project.lua` at its root that
 -- returns a descriptor: { kind = 'rails', redis = true } or { kind = 'simple' }.
 -- Workspace name = basename of the project directory. Scan is depth-limited
 -- so we never descend into node_modules/vendor/etc.
@@ -91,7 +91,7 @@ local kinds = {
 local function discover_projects(root, max_depth)
   local found = {}
   for depth = 1, max_depth do
-    local pattern = root .. string.rep('/*', depth) .. '/.wezterm.lua'
+    local pattern = root .. string.rep('/*', depth) .. '/.wezterm-project.lua'
     for _, cfg in ipairs(wezterm.glob(pattern)) do
       local dir  = cfg:match('(.+)/[^/]+$')
       local name = dir:match('([^/]+)$')
@@ -261,6 +261,16 @@ wezterm.on('launch-project', function(window, pane)
     },
     pane
   )
+end)
+
+-- ─── Startup ─────────────────────────────────────────────────────────
+
+wezterm.on('gui-startup', function(cmd)
+  local _, pane, window = mux.spawn_window(cmd or {})
+  local right = pane:split { direction = 'Right', size = 0.4 }
+  right:send_text('subsequent\n')
+  pane:activate()
+  window:gui_window():maximize()
 end)
 
 -- ─── Keys ────────────────────────────────────────────────────────────
