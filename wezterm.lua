@@ -27,14 +27,16 @@ local function rails_teardown(cwd, opts)
   return table.concat(parts, '; ')
 end
 
--- Non-rails project: claude/subsequent, vim/bash, diff, shell. No server/teardown.
-local function simple_project(cwd)
-  local tabs = {
+-- Shared claude/editor/diff/shell layout. `claude_side` is what to run in
+-- the claude tab's right pane — a string for one command, or a list for a
+-- sequence (e.g. subsequent then bl3 on rails projects).
+local function base_tabs(claude_side)
+  return {
     {
       title = 'claude',
       panes = {
         { cmd = 'claude' },
-        { cmd = 'subsequent', split = { direction = 'Right', size = 0.4 } },
+        { cmd = claude_side, split = { direction = 'Right', size = 0.4 } },
       },
     },
     {
@@ -47,30 +49,16 @@ local function simple_project(cwd)
     { title = 'diff',  panes = { {} } },
     { title = 'shell', panes = { {} } },
   }
-  return { cwd = cwd, tabs = tabs }
+end
+
+local function simple_project(cwd)
+  return { cwd = cwd, tabs = base_tabs('subsequent') }
 end
 
 local function rails_project(cwd, opts)
   opts = opts or {}
-  local tabs = {
-    {
-      title = 'claude',
-      panes = {
-        { cmd = 'claude' },
-        { cmd = { 'subsequent', 'bl3' }, split = { direction = 'Right', size = 0.4 } },
-      },
-    },
-    {
-      title = 'editor',
-      panes = {
-        { cmd = 'vim' },
-        { split = { direction = 'Right', size = 0.4 } },
-      },
-    },
-    { title = 'diff',   panes = { {} } },
-    { title = 'shell',  panes = { {} } },
-    { title = 'server', panes = { { cmd = overmind_command(cwd) } } },
-  }
+  local tabs = base_tabs { 'subsequent', 'bl3' }
+  table.insert(tabs, { title = 'server', panes = { { cmd = overmind_command(cwd) } } })
   if opts.redis then
     table.insert(tabs, { title = 'redis', panes = { { cmd = 'redis-server' } } })
   end
@@ -192,6 +180,16 @@ local function mru_touch(name)
   mru_save()
 end
 
+local function mru_remove(name)
+  for i, n in ipairs(mru) do
+    if n == name then table.remove(mru, i); mru_save(); return end
+  end
+end
+
+-- Workspaces registered via launch-here. Tracked so they can be pruned from
+-- the MRU on close — committed projects stay in the MRU for easy re-launch.
+local ephemeral = {}
+
 local function switch_or_launch(window, name)
   local was_new = false
   if not workspace_exists(name) then
@@ -236,6 +234,18 @@ local function close_one(ws)
     }
   end
   kill_workspace(ws)
+  if ephemeral[ws] then mru_remove(ws) end
+end
+
+-- Pick the next workspace to focus after closing one (or many): first active
+-- entry in MRU order that isn't in the excluded set, else 'default'.
+local function next_focus(excluded)
+  local active = {}
+  for _, w in ipairs(mux.get_workspace_names()) do active[w] = true end
+  for _, name in ipairs(mru) do
+    if active[name] and not excluded[name] then return name end
+  end
+  return 'default'
 end
 
 wezterm.on('close-workspace', function(window, pane)
@@ -260,10 +270,22 @@ wezterm.on('close-workspace', function(window, pane)
     act.InputSelector {
       title = 'Close workspace "' .. ws .. '"?',
       choices = choices,
-      action = wezterm.action_callback(function(_win, _p, id, _label)
+      action = wezterm.action_callback(function(win, _p, id, _label)
         if id == 'yes' then
+          -- Switch away before killing panes so we land deterministically
+          -- instead of wherever wezterm picks when the active ws dissolves.
+          win:perform_action(
+            act.SwitchToWorkspace { name = next_focus { [ws] = true } },
+            win:active_pane()
+          )
           close_one(ws)
         elseif id == 'all' then
+          local excluded = {}
+          for _, name in ipairs(active_projects) do excluded[name] = true end
+          win:perform_action(
+            act.SwitchToWorkspace { name = next_focus(excluded) },
+            win:active_pane()
+          )
           for _, name in ipairs(active_projects) do close_one(name) end
         end
       end),
@@ -279,20 +301,25 @@ wezterm.on('launch-project', function(window, pane)
   local active = {}
   for _, ws in ipairs(mux.get_workspace_names()) do active[ws] = true end
 
-  -- Active workspaces: MRU first, then any mux has that MRU doesn't.
-  local ordered = {}
+  -- Walk MRU first so closed projects keep their slot; a closed entry shows
+  -- with '(launch)' so it's visually distinct from an active workspace.
+  local choices = {}
   local seen = {}
   for _, ws in ipairs(mru) do
-    if active[ws] then table.insert(ordered, ws); seen[ws] = true end
+    seen[ws] = true
+    if ws == current then
+      table.insert(choices, { label = '● ' .. ws, id = ws })
+    elseif active[ws] then
+      table.insert(choices, { label = '○ ' .. ws, id = ws })
+    elseif projects[ws] then
+      table.insert(choices, { label = '  ' .. ws .. '  (launch)', id = ws })
+    end
   end
   for _, ws in ipairs(mux.get_workspace_names()) do
-    if not seen[ws] then table.insert(ordered, ws); seen[ws] = true end
-  end
-
-  local choices = {}
-  for _, ws in ipairs(ordered) do
-    local marker = (ws == current) and '● ' or '○ '
-    table.insert(choices, { label = marker .. ws, id = ws })
+    if not seen[ws] then
+      seen[ws] = true
+      table.insert(choices, { label = '○ ' .. ws, id = ws })
+    end
   end
   for name, _ in pairs(projects) do
     if not seen[name] then
@@ -312,6 +339,38 @@ wezterm.on('launch-project', function(window, pane)
   )
 end)
 
+-- ─── Ad-hoc launch (no .wezterm-project.lua required) ───────────────
+-- For directories without a committed project descriptor — a freshly-cloned
+-- repo, a bundled gem's checkout — spin up a `simple` workspace from $PWD.
+
+local function pane_cwd(pane)
+  local url = pane:get_current_working_dir()
+  if not url then return nil end
+  if type(url) == 'string' then
+    return url:match('^file://[^/]*(/.*)$') or url
+  end
+  return url.file_path
+end
+
+wezterm.on('launch-here', function(window, pane)
+  local cwd = pane_cwd(pane)
+  if not cwd or cwd == '' then
+    wezterm.log_error('launch-here: could not read cwd from active pane')
+    return
+  end
+  local name = cwd:match('([^/]+)$')
+  if not name then
+    wezterm.log_error('launch-here: could not derive name from cwd ' .. cwd)
+    return
+  end
+  -- A pre-registered project at this name wins over the ad-hoc descriptor.
+  if not projects[name] then
+    projects[name] = simple_project(cwd)
+    ephemeral[name] = true
+  end
+  switch_or_launch(window, name)
+end)
+
 -- ─── Startup ─────────────────────────────────────────────────────────
 
 wezterm.on('gui-startup', function(cmd)
@@ -326,6 +385,7 @@ end)
 
 config.keys = {
   { key = 'S', mods = 'CTRL|SHIFT', action = act.EmitEvent 'launch-project' },
+  { key = 'O', mods = 'CTRL|SHIFT', action = act.EmitEvent 'launch-here' },
   { key = 'Q', mods = 'CTRL|SHIFT', action = act.EmitEvent 'close-workspace' },
 }
 
