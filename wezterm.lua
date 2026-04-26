@@ -27,9 +27,8 @@ local function rails_teardown(cwd, opts)
   return table.concat(parts, '; ')
 end
 
--- Shared claude/editor/diff/shell layout. `claude_side` is what to run in
--- the claude tab's right pane — a string for one command, or a list for a
--- sequence (e.g. subsequent then bl3 on rails projects).
+-- Shared claude/editor/diff/shell layout. `claude_side` is the command run
+-- in the claude tab's right pane (typically `subsequent`, with optional args).
 local function base_tabs(claude_side)
   return {
     {
@@ -51,13 +50,18 @@ local function base_tabs(claude_side)
   }
 end
 
-local function simple_project(cwd)
-  return { cwd = cwd, tabs = base_tabs('subsequent') }
+local function subsequent_cmd(args)
+  return args and ('subsequent ' .. args) or 'subsequent'
+end
+
+local function simple_project(cwd, opts)
+  opts = opts or {}
+  return { cwd = cwd, tabs = base_tabs(subsequent_cmd(opts.subsequent)) }
 end
 
 local function rails_project(cwd, opts)
   opts = opts or {}
-  local tabs = base_tabs { 'subsequent', 'bl3' }
+  local tabs = base_tabs(subsequent_cmd(opts.subsequent))
   table.insert(tabs, { title = 'server', panes = { { cmd = overmind_command(cwd) } } })
   if opts.redis then
     table.insert(tabs, { title = 'redis', panes = { { cmd = 'redis-server' } } })
@@ -101,12 +105,7 @@ local projects = discover_projects(wezterm.home_dir .. '/Dropbox/projects', 3)
 -- ─── Layout materialization ──────────────────────────────────────────
 
 local function send_cmd(pane, cmd)
-  if not cmd then return end
-  if type(cmd) == 'table' then
-    for _, c in ipairs(cmd) do pane:send_text(c .. '\n') end
-  else
-    pane:send_text(cmd .. '\n')
-  end
+  if cmd then pane:send_text(cmd .. '\n') end
 end
 
 local function populate_tab(tab, main_pane, tab_def, cwd)
@@ -274,16 +273,20 @@ wezterm.on('close-workspace', function(window, pane)
         if id == 'yes' then
           -- Switch away before killing panes so we land deterministically
           -- instead of wherever wezterm picks when the active ws dissolves.
+          local target = next_focus { [ws] = true }
+          mru_touch(target)
           win:perform_action(
-            act.SwitchToWorkspace { name = next_focus { [ws] = true } },
+            act.SwitchToWorkspace { name = target },
             win:active_pane()
           )
           close_one(ws)
         elseif id == 'all' then
           local excluded = {}
           for _, name in ipairs(active_projects) do excluded[name] = true end
+          local target = next_focus(excluded)
+          mru_touch(target)
           win:perform_action(
-            act.SwitchToWorkspace { name = next_focus(excluded) },
+            act.SwitchToWorkspace { name = target },
             win:active_pane()
           )
           for _, name in ipairs(active_projects) do close_one(name) end
@@ -305,14 +308,18 @@ wezterm.on('launch-project', function(window, pane)
   -- with '(launch)' so it's visually distinct from an active workspace.
   local choices = {}
   local seen = {}
+  -- Current workspace always shown first. `default` and ad-hoc workspaces may
+  -- not be in MRU yet on a fresh session.
+  table.insert(choices, { label = '● ' .. current, id = current })
+  seen[current] = true
   for _, ws in ipairs(mru) do
-    seen[ws] = true
-    if ws == current then
-      table.insert(choices, { label = '● ' .. ws, id = ws })
-    elseif active[ws] then
-      table.insert(choices, { label = '○ ' .. ws, id = ws })
-    elseif projects[ws] then
-      table.insert(choices, { label = '  ' .. ws .. '  (launch)', id = ws })
+    if not seen[ws] then
+      seen[ws] = true
+      if active[ws] then
+        table.insert(choices, { label = '○ ' .. ws, id = ws })
+      elseif projects[ws] then
+        table.insert(choices, { label = '  ' .. ws .. '  (launch)', id = ws })
+      end
     end
   end
   for _, ws in ipairs(mux.get_workspace_names()) do
