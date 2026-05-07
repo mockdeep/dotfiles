@@ -437,6 +437,10 @@ wezterm.on('gui-startup', function(cmd)
   right:send_text('subsequent\n')
   pane:activate()
   window:gui_window():maximize()
+  -- Every other path into a workspace goes through switch_or_launch and gets
+  -- mru_touch'd on the way in. gui-startup is the one exception, so the
+  -- default workspace never makes it into the MRU on its own.
+  mru_touch(window:get_workspace())
 end)
 
 -- ─── Keys ────────────────────────────────────────────────────────────
