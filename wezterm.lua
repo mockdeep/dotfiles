@@ -6,25 +6,15 @@ local config = wezterm.config_builder()
 
 -- ─── Project definitions ─────────────────────────────────────────────
 
--- Bind overmind's socket at an ABSOLUTE path (via OVERMIND_SOCKET) so that
--- /proc/net/unix records a unique per-project path.
-local function overmind_command(cwd)
-  local sock = cwd .. '/.overmind.sock'
-  return 'OVERMIND_SOCKET=' .. sock .. ' overmind start -f Procfile.dev -x web'
+local function dev_server_command()
+  return 'foreman start -f Procfile.dev -m all=1,web=0'
 end
 
--- Graceful shutdown: ask overmind to quit, wait for it to remove its socket,
--- then (optionally) stop redis. Run before killing panes on workspace close.
-local function rails_teardown(cwd, opts)
-  local sock = cwd .. '/.overmind.sock'
-  local parts = {
-    'OVERMIND_SOCKET=' .. sock .. ' overmind quit 2>/dev/null',
-    "timeout 5 bash -c 'while [ -S " .. sock .. " ]; do sleep 0.1; done'",
-  }
+local function rails_teardown(opts)
   if opts.redis then
-    table.insert(parts, 'redis-cli shutdown nosave 2>/dev/null')
+    return 'redis-cli shutdown nosave 2>/dev/null'
   end
-  return table.concat(parts, '; ')
+  return nil
 end
 
 -- Shared claude/editor/diff/shell layout. `claude_side` is the command run
@@ -62,11 +52,11 @@ end
 local function rails_project(cwd, opts)
   opts = opts or {}
   local tabs = base_tabs(subsequent_cmd(opts.subsequent))
-  table.insert(tabs, { title = 'server', panes = { { cmd = overmind_command(cwd) } } })
+  table.insert(tabs, { title = 'server', panes = { { cmd = dev_server_command() } } })
   if opts.redis then
     table.insert(tabs, { title = 'redis', panes = { { cmd = 'redis-server' } } })
   end
-  return { cwd = cwd, tabs = tabs, teardown = rails_teardown(cwd, opts) }
+  return { cwd = cwd, tabs = tabs, teardown = rails_teardown(opts) }
 end
 
 -- ─── Project discovery ───────────────────────────────────────────────
