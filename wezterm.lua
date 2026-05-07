@@ -10,13 +10,6 @@ local function dev_server_command()
   return 'foreman start -f Procfile.dev -m all=1,web=0'
 end
 
-local function rails_teardown(opts)
-  if opts.redis then
-    return 'redis-cli shutdown nosave 2>/dev/null'
-  end
-  return nil
-end
-
 -- Shared claude/editor/diff/shell layout. `claude_side` is the command run
 -- in the claude tab's right pane (typically `subsequent`, with optional args).
 local function base_tabs(claude_side)
@@ -56,7 +49,7 @@ local function rails_project(cwd, opts)
   if opts.redis then
     table.insert(tabs, { title = 'redis', panes = { { cmd = 'redis-server' } } })
   end
-  return { cwd = cwd, tabs = tabs, teardown = rails_teardown(opts) }
+  return { cwd = cwd, tabs = tabs }
 end
 
 -- ─── Project discovery ───────────────────────────────────────────────
@@ -215,13 +208,81 @@ local function kill_workspace(ws)
   end
 end
 
+-- Foreground process name → graceful shutdown action. Default (no entry) is
+-- Ctrl-C, which is fine for most CLI tools. Names are basenames as reported
+-- by pane:get_foreground_process_info().
+local shutdown_strategies = {
+  claude           = { kind = 'send_seq', keys = { '\x04', '\x04' }, gap_ms = 150 },
+  vim              = { kind = 'send', text = '\x1b:wqa\r' },
+  nvim             = { kind = 'send', text = '\x1b:wqa\r' },
+  ['redis-server'] = { kind = 'cmd',  cmd = 'redis-cli shutdown nosave 2>/dev/null' },
+  foreman          = { kind = 'send', text = '\x03' },
+  ruby             = { kind = 'send', text = '\x03' },
+  bash             = { kind = 'send', text = '\x04' },
+  zsh              = { kind = 'send', text = '\x04' },
+}
+local default_strategy = { kind = 'send', text = '\x03' }
+local idle_names = { bash = true, zsh = true, sh = true, dash = true, fish = true }
+
+local function fg_process_name(pane)
+  local ok, info = pcall(function() return pane:get_foreground_process_info() end)
+  if ok and info and info.name then return info.name end
+  return nil
+end
+
+local function trigger_shutdown(pane, project_cwd)
+  local name = fg_process_name(pane)
+  if not name then return false end
+  local s = shutdown_strategies[name] or default_strategy
+  if s.kind == 'send' then
+    pane:send_text(s.text)
+  elseif s.kind == 'send_seq' then
+    pane:send_text(s.keys[1])
+    if s.gap_ms and #s.keys > 1 then
+      wezterm.run_child_process { 'sleep', tostring(s.gap_ms / 1000) }
+    end
+    for i = 2, #s.keys do pane:send_text(s.keys[i]) end
+  elseif s.kind == 'cmd' then
+    if project_cwd then
+      wezterm.run_child_process { 'mise', 'exec', '--cd', project_cwd, '--', 'bash', '-c', s.cmd }
+    else
+      wezterm.run_child_process { 'bash', '-c', s.cmd }
+    end
+  end
+  return true
+end
+
+local function pane_idle(pane)
+  local name = fg_process_name(pane)
+  return name == nil or idle_names[name] == true
+end
+
 local function close_one(ws)
   local project = projects[ws]
-  if project and project.teardown then
-    wezterm.run_child_process {
-      'mise', 'exec', '--cd', project.cwd, '--', 'bash', '-c', project.teardown,
-    }
+  local cwd = project and project.cwd or nil
+
+  -- Trigger graceful shutdown on every pane that has something running.
+  local draining = {}
+  for _, mux_win in ipairs(mux.all_windows()) do
+    if mux_win:get_workspace() == ws then
+      for _, tab in ipairs(mux_win:tabs()) do
+        for _, p in ipairs(tab:panes()) do
+          if trigger_shutdown(p, cwd) then table.insert(draining, p) end
+        end
+      end
+    end
   end
+
+  -- Drain: poll up to 5s for triggered panes to reach a shell prompt.
+  for _ = 1, 25 do
+    local all_idle = true
+    for _, p in ipairs(draining) do
+      if not pane_idle(p) then all_idle = false; break end
+    end
+    if all_idle then break end
+    wezterm.run_child_process { 'sleep', '0.2' }
+  end
+
   kill_workspace(ws)
   if ephemeral[ws] then mru_remove(ws) end
 end
