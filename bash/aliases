@@ -8,6 +8,8 @@ alias hrcp='heroku run "rails console -w" -r heroku --size=performance-L'
 alias hrcw='heroku run "rails console -w" -r heroku'
 alias o='xdg-open'
 
+alias split-m4b='docker run -it --rm -u $(id -u):$(id -g) -v "$(pwd)":/mnt sandreas/m4b-tool:latest split --audio-format=mp3 --audio-bitrate=128k'
+
 alias vi=nvim
 alias vim=nvim
 function vimcheck {
