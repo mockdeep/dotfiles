@@ -10,41 +10,23 @@ local function dev_server_command()
   return 'foreman start -f Procfile.dev -m all=1,web=0'
 end
 
--- Shared claude/editor/diff/shell layout. `claude_side` is the command run
--- in the claude tab's right pane (typically `subsequent`, with optional args).
-local function base_tabs(claude_side)
+-- Shared claude/editor/diff/shell layout.
+local function base_tabs()
   return {
-    {
-      title = 'claude',
-      panes = {
-        { cmd = 'claude' },
-        { cmd = claude_side, split = { direction = 'Right', size = 0.4 } },
-      },
-    },
-    {
-      title = 'editor',
-      panes = {
-        { cmd = 'vim' },
-        { split = { direction = 'Right', size = 0.4 } },
-      },
-    },
-    { title = 'diff',  panes = { {} } },
-    { title = 'shell', panes = { {} } },
+    { title = 'claude', panes = { { cmd = 'claude' } } },
+    { title = 'editor', panes = { { cmd = 'vim' } } },
+    { title = 'diff',   panes = { {} } },
+    { title = 'shell',  panes = { {} } },
   }
 end
 
-local function subsequent_cmd(args)
-  return args and ('subsequent ' .. args) or 'subsequent'
-end
-
-local function simple_project(cwd, opts)
-  opts = opts or {}
-  return { cwd = cwd, tabs = base_tabs(subsequent_cmd(opts.subsequent)) }
+local function simple_project(cwd)
+  return { cwd = cwd, tabs = base_tabs() }
 end
 
 local function rails_project(cwd, opts)
   opts = opts or {}
-  local tabs = base_tabs(subsequent_cmd(opts.subsequent))
+  local tabs = base_tabs()
   table.insert(tabs, { title = 'server', panes = { { cmd = dev_server_command() } } })
   if opts.redis then
     table.insert(tabs, { title = 'redis', panes = { { cmd = 'redis-server' } } })
@@ -432,10 +414,7 @@ end)
 -- ─── Startup ─────────────────────────────────────────────────────────
 
 wezterm.on('gui-startup', function(cmd)
-  local _, pane, window = mux.spawn_window(cmd or {})
-  local right = pane:split { direction = 'Right', size = 0.4 }
-  right:send_text('subsequent\n')
-  pane:activate()
+  local _, _, window = mux.spawn_window(cmd or {})
   window:gui_window():maximize()
   -- Every other path into a workspace goes through switch_or_launch and gets
   -- mru_touch'd on the way in. gui-startup is the one exception, so the
