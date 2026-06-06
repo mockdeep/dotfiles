@@ -17,3 +17,4 @@ support_data.yml
 .playwright-mcp
 .wezterm-project.lua
 __MACOSX
+.gstack/

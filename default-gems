@@ -1,12 +1,13 @@
+rubygems-bundler
+activesupport
 bundler
 foreman
 hookup
+http
+httparty
 mailcatcher
 neovim
 pry
-rubygems-bundler
-solargraph
-httparty
-activesupport
 ruby-lsp
+solargraph
 tmuxinator
