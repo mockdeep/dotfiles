@@ -25,6 +25,7 @@ alias youtube-dl-playlist='yt-dlp --download-archive archive.txt -o "%(playlist_
 alias dl_series='yt-dlp -o "%(autonumber)03d %(title)s.%(ext)s" --playlist-reverse'
 alias dlmp3='yt-dlp --preset-alias mp3'
 alias dl_album='yt-dlp -x --audio-format mp3 --embed-metadata --embed-thumbnail'
+alias m4b-tool='docker run -it --rm -u $(id -u):$(id -g) -v "$(pwd)":/mnt sandreas/m4b-tool:latest'
 
 function jrnl {
   local today=$(date +%Y-%m-%d)
