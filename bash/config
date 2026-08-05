@@ -52,18 +52,14 @@ function parse_git {
     status="$(git status 2>/dev/null)"
 
     state=""
-    if [[ $status =~ "working tree clean" ]]; then
+    if [[ $status =~ "Untracked files" ]]; then
         state=${c_dirty}${dot}${end}
-    else
-        if [[ $status =~ "Untracked files" ]]; then
-            state=${c_dirty}${dot}${end}
-        fi
-        if [[ $status =~ "Changes not staged for commit" ]]; then
-            state=${state}${c_staged}${dot}${end}
-        fi
-        if [[ $status =~ "Changes to be committed" ]]; then
-            state=${state}${c_staged}${dot}${end}
-        fi
+    fi
+    if [[ $status =~ "Changes not staged for commit" ]]; then
+        state=${state}${c_staged}${dot}${end}
+    fi
+    if [[ $status =~ "Changes to be committed" ]]; then
+        state=${state}${c_staged}${dot}${end}
     fi
 
     direction=""
@@ -76,8 +72,7 @@ function parse_git {
     fi
 
     branch=${c_branch}${branch}${end}
-    git_bit="${state}${c_git}(${end}${branch}\
-${git_bit}${direction}${c_git})${end}"
+    git_bit="${state}${c_git}(${end}${branch}${direction}${c_git})${end}"
 
     printf "%s" "$git_bit"
 }

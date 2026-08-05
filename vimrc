@@ -9,7 +9,6 @@ set incsearch
 set number
 set wrap
 set linebreak
-set nolist
 set nojoinspaces
 set showcmd             " show command in bottom bar
 set cursorline          " highlight current line
@@ -25,8 +24,8 @@ set history=1000
 set shortmess-=S        " show search count
 
 
-noremap  <buffer> <silent> k gk
-noremap  <buffer> <silent> j gj
+noremap  <silent> k gk
+noremap  <silent> j gj
 syntax on
 filetype plugin indent on
 set list listchars=tab:»·,trail:·
