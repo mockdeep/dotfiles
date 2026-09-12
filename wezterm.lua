@@ -13,8 +13,7 @@ end
 -- Shared claude/editor/diff/shell layout.
 local function base_tabs()
   return {
-    { title = 'claude', panes = { { cmd = 'claude' } } },
-    { title = 'claude', panes = { { cmd = 'claude' } } },
+    { title = 'claude', panes = { { cmd = 'claude update && claude' } } },
     { title = 'editor', panes = { { cmd = 'vim' } } },
     { title = 'diff',   panes = { {} } },
     { title = 'shell',  panes = { {} } },
