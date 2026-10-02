@@ -39,6 +39,9 @@ end
 -- returns a descriptor: { kind = 'rails', redis = true } or { kind = 'simple' }.
 -- Workspace name = basename of the project directory. Scan is depth-limited
 -- so we never descend into node_modules/vendor/etc.
+--
+-- A remote project is a local stub folder whose descriptor adds
+-- `domain = 'SSH:<host>'` (host from ~/.ssh/config) and `cwd = '<remote path>'`.
 
 local kinds = {
   rails  = rails_project,
@@ -58,7 +61,8 @@ local function discover_projects(root, max_depth)
       elseif not kinds[d.kind] then
         error(cfg .. ': unknown kind ' .. tostring(d.kind))
       else
-        found[name] = kinds[d.kind](dir, d)
+        found[name] = kinds[d.kind](d.cwd or dir, d)
+        found[name].domain = d.domain
       end
     end
   end
@@ -69,32 +73,61 @@ local projects = discover_projects(wezterm.home_dir .. '/Dropbox/projects', 3)
 
 -- ─── Layout materialization ──────────────────────────────────────────
 
-local function send_cmd(pane, cmd)
-  if cmd then pane:send_text(cmd .. '\n') end
+local function sh_quote(s)
+  return "'" .. s:gsub("'", "'\\''") .. "'"
 end
 
-local function populate_tab(tab, main_pane, tab_def, cwd)
+-- Local panes start a shell in `cwd` and get their command typed in afterwards.
+-- Remote panes can't work that way: SSH domains ignore `cwd`, and text typed
+-- before the connection is up is lost. So the cd and the command are baked
+-- into the program the pane starts with, ending in a login shell.
+local function spawn_opts(project, pane_def)
+  if not project.domain then return { cwd = project.cwd } end
+  -- The command's shell must itself exec the final login shell. Starting that
+  -- shell from the outer sh instead leaves it without the terminal, and it
+  -- exits as soon as the command does.
+  local shell = 'exec "$SHELL" -l'
+  if pane_def.cmd then
+    shell = 'exec "$SHELL" -lic ' .. sh_quote(pane_def.cmd .. '; ' .. shell)
+  end
+  return {
+    domain = { DomainName = project.domain },
+    args = { '/bin/sh', '-c', 'cd ' .. sh_quote(project.cwd) .. '; ' .. shell },
+  }
+end
+
+local function send_cmd(pane, project, pane_def)
+  if pane_def.cmd and not project.domain then
+    pane:send_text(pane_def.cmd .. '\n')
+  end
+end
+
+local function populate_tab(tab, main_pane, tab_def, project)
   if tab_def.title then tab:set_title(tab_def.title) end
   local panes = tab_def.panes or { {} }
-  send_cmd(main_pane, panes[1].cmd)
+  send_cmd(main_pane, project, panes[1])
   for i = 2, #panes do
     local p = panes[i]
     local s = p.split or { direction = 'Right', size = 0.4 }
-    local new_pane = main_pane:split { direction = s.direction, size = s.size, cwd = cwd }
-    send_cmd(new_pane, p.cmd)
+    local opts = spawn_opts(project, p)
+    opts.direction, opts.size = s.direction, s.size
+    send_cmd(main_pane:split(opts), project, p)
   end
   main_pane:activate()
 end
 
+local function first_pane_def(tab_def)
+  return (tab_def.panes or { {} })[1]
+end
+
 local function materialize_project(name, project)
-  local first_tab, first_pane, window = mux.spawn_window {
-    workspace = name,
-    cwd = project.cwd,
-  }
-  populate_tab(first_tab, first_pane, project.tabs[1], project.cwd)
+  local opts = spawn_opts(project, first_pane_def(project.tabs[1]))
+  opts.workspace = name
+  local first_tab, first_pane, window = mux.spawn_window(opts)
+  populate_tab(first_tab, first_pane, project.tabs[1], project)
   for i = 2, #project.tabs do
-    local tab, pane = window:spawn_tab { cwd = project.cwd }
-    populate_tab(tab, pane, project.tabs[i], project.cwd)
+    local tab, pane = window:spawn_tab(spawn_opts(project, first_pane_def(project.tabs[i])))
+    populate_tab(tab, pane, project.tabs[i], project)
   end
 end
 
@@ -242,6 +275,13 @@ end
 local function close_one(ws)
   local project = projects[ws]
   local cwd = project and project.cwd or nil
+
+  -- Remote panes: we can't see what's running over SSH, and the local
+  -- shutdown commands don't apply. Killing the panes drops the connection.
+  if project and project.domain then
+    kill_workspace(ws)
+    return
+  end
 
   -- Trigger graceful shutdown on every pane that has something running.
   local draining = {}
